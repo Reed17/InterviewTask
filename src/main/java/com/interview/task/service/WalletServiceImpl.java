@@ -21,13 +21,17 @@ public class WalletServiceImpl implements WalletService {
     @Transactional
     @Override
     public boolean replenishBalance(final Long clientWalletFrom, final Long clientWalletTo, final Double amount) {
-        // todo reduce balance
-        subtract(clientWalletFrom, amount);
-        // todo replenish balance
-        add(clientWalletTo, amount);
-        return false;
+        amountChecker(amount);
+        try {
+            subtract(clientWalletFrom, amount);
+            add(clientWalletTo, amount);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
+    @Transactional
     @Override
     public void add(final Long clientWalletId, final Double amount) throws InvalidOrEmptyAmountException {
         amountChecker(amount);
@@ -36,6 +40,7 @@ public class WalletServiceImpl implements WalletService {
         walletRepository.save(clientWallet);
     }
 
+    @Transactional
     @Override
     public void subtract(Long clientWalletId, Double amount) throws InvalidOrEmptyAmountException, LowBalanceException {
         amountChecker(amount);

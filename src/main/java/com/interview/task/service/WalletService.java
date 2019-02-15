@@ -1,6 +1,7 @@
 package com.interview.task.service;
 
 import com.interview.task.dto.ClientDto;
+import com.interview.task.dto.WalletDto;
 import com.interview.task.entity.Wallet;
 import com.interview.task.exceptions.InvalidOrEmptyAmountException;
 import com.interview.task.exceptions.LowBalanceException;

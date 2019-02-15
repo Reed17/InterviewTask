@@ -2,6 +2,7 @@ package com.interview.task.controller;
 
 import com.interview.task.dto.ClientDto;
 import com.interview.task.dto.WalletDto;
+import com.interview.task.exceptions.WalletCreationLimitException;
 import com.interview.task.service.ClientService;
 import com.interview.task.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ClientController {
     private final WalletService walletService;
 
     @Autowired
-    public ClientController(ClientService clientService, WalletService walletService) {
+    public ClientController(final ClientService clientService, final WalletService walletService) {
         this.clientService = clientService;
         this.walletService = walletService;
     }
@@ -55,11 +56,40 @@ public class ClientController {
         return ResponseEntity.ok().body(clientService.getAllClientWallets(clientId));
     }
 
-    public ResponseEntity<?> addBalance(@PathVariable("id") final Long clientId) {
-        List<WalletDto> clientWallets = clientService.getAllClientWallets(clientId);
+    @PutMapping("/{id}/amount/add")
+    public ResponseEntity<?> addBalance(@PathVariable("id") final Long clientId,
+                                        @RequestParam("amount") final Double amount) {
+        final List<WalletDto> clientWallets = clientService.getAllClientWallets(clientId);
         WalletDto walletDto = clientWallets.get(0);
-        //walletService.add();
-
+        walletService.add(walletDto.getWalletId(), amount);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/amount/reduce")
+    public ResponseEntity<?> reduceBalance(@PathVariable("id") final Long clientId,
+                                           @RequestParam("amount") final Double amount) {
+        final List<WalletDto> clientWallets = clientService.getAllClientWallets(clientId);
+        WalletDto walletDto = clientWallets.get(0);
+        walletService.subtract(walletDto.getWalletId(), amount);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{fromId}/replenish/{toId}")
+    public ResponseEntity<?> replenishClientBalance(@PathVariable("fromId") final Long fromId,
+                                                    @RequestParam("amount") final Double amount,
+                                                    @PathVariable("toId") final Long toId) {
+        final List<WalletDto> fromWallets = clientService.getAllClientWallets(fromId);
+        WalletDto fromWallet = fromWallets.get(0);
+        final List<WalletDto> toWallets = clientService.getAllClientWallets(toId);
+        WalletDto toWallet = toWallets.get(0);
+        boolean isReplenished = walletService.replenishBalance(fromWallet.getWalletId(), toWallet.getWalletId(), amount);
+        return ResponseEntity.ok().body(isReplenished);
+    }
+
+    @PostMapping("/{id}/wallet/new")
+    public ResponseEntity<?> createNewClientWallet(@PathVariable("id") final Long clientId,
+                                                   @RequestBody final WalletDto walletDto) throws WalletCreationLimitException {
+        WalletDto createdWallet = clientService.addWallet(clientId, walletDto);
+        return ResponseEntity.ok().body(createdWallet);
     }
 }
