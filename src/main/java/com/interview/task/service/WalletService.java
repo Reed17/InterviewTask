@@ -11,4 +11,5 @@ public interface WalletService {
      boolean replenishBalanceByDifferentCurrencies(Long clientWalletFrom, Long clientWalletTo, Double amount);
      void add(Long walletId, Double amount) throws InvalidOrEmptyAmountException;
      void subtract(Long walletId, Double amount) throws InvalidOrEmptyAmountException, LowBalanceException;
+     WalletDto getWallet(Long walletId);
 }

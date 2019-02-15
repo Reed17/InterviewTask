@@ -56,45 +56,37 @@ public class ClientController {
         return ResponseEntity.ok().body(clientService.getAllClientWallets(clientId));
     }
 
-    @PutMapping("/{id}/amount/add")
-    public ResponseEntity<?> addBalance(@PathVariable("id") final Long clientId,
+    @PutMapping("/add/{walletId}")
+    public ResponseEntity<?> addBalance(@PathVariable("walletId") final Long walletId,
                                         @RequestParam("amount") final Double amount) {
-        final List<WalletDto> clientWallets = clientService.getAllClientWallets(clientId);
-        WalletDto walletDto = clientWallets.get(0);
-        walletService.add(walletDto.getWalletId(), amount);
+        WalletDto walletDto = walletService.getWallet(walletId);
+                walletService.add(walletDto.getWalletId(), amount);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/amount/reduce")
-    public ResponseEntity<?> reduceBalance(@PathVariable("id") final Long clientId,
+    @PutMapping("/reduce/{walletId}")
+    public ResponseEntity<?> reduceBalance(@PathVariable("walletId") final Long walletId,
                                            @RequestParam("amount") final Double amount) {
-        final List<WalletDto> clientWallets = clientService.getAllClientWallets(clientId);
-        WalletDto walletDto = clientWallets.get(0);
+        WalletDto walletDto = walletService.getWallet(walletId);
         walletService.subtract(walletDto.getWalletId(), amount);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{fromId}/replenish/{toId}")
-    public ResponseEntity<?> replenishClientBalance(@PathVariable("fromId") final Long fromId,
+    public ResponseEntity<?> replenishClientBalance(@PathVariable("fromId") final Long fromWalletId,
                                                     @RequestParam("amount") final Double amount,
-                                                    @PathVariable("toId") final Long toId) {
-        final List<WalletDto> fromWallets = clientService.getAllClientWallets(fromId);
-        WalletDto fromWallet = fromWallets.get(0);
-        final List<WalletDto> toWallets = clientService.getAllClientWallets(toId);
-        WalletDto toWallet = toWallets.get(0);
+                                                    @PathVariable("toId") final Long toWalletId) {
+        WalletDto fromWallet = walletService.getWallet(fromWalletId);
+        WalletDto toWallet = walletService.getWallet(toWalletId);
         boolean isReplenished = walletService.replenishBalance(fromWallet.getWalletId(), toWallet.getWalletId(), amount);
         return ResponseEntity.ok().body(isReplenished);
     }
 
     @PutMapping("/{fromId}/multicurr/{toId}")
-    public ResponseEntity<?> replenishBalanceMultiCurrency(@PathVariable("fromId") final Long fromId,
+    public ResponseEntity<?> replenishBalanceMultiCurrency(@PathVariable("fromId") final Long fromWalletId,
                                                            @RequestParam("amount") final Double amount,
-                                                           @PathVariable("toId") final Long toId) {
-        final List<WalletDto> fromWallets = clientService.getAllClientWallets(fromId);
-        WalletDto fromWallet = fromWallets.get(0);
-        final List<WalletDto> toWallets = clientService.getAllClientWallets(toId);
-        WalletDto toWallet = toWallets.get(0);
-        boolean isMultiCurrReplenished = walletService.replenishBalanceByDifferentCurrencies(fromId, toId, amount);
+                                                           @PathVariable("toId") final Long toWalletId) {
+        boolean isMultiCurrReplenished = walletService.replenishBalanceByDifferentCurrencies(fromWalletId, toWalletId, amount);
         return ResponseEntity.ok().body(isMultiCurrReplenished);
     }
 
