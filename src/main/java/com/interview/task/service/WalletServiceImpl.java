@@ -1,5 +1,6 @@
 package com.interview.task.service;
 
+import com.interview.task.converter.Converter;
 import com.interview.task.entity.Wallet;
 import com.interview.task.exceptions.InvalidOrEmptyAmountException;
 import com.interview.task.exceptions.LowBalanceException;
@@ -12,10 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class WalletServiceImpl implements WalletService {
 
     private WalletRepository walletRepository;
+    private Converter converter;
 
     @Autowired
-    public WalletServiceImpl(WalletRepository walletRepository) {
+    public WalletServiceImpl(final WalletRepository walletRepository, final Converter converter) {
         this.walletRepository = walletRepository;
+        this.converter = converter;
     }
 
     @Transactional
@@ -30,6 +33,8 @@ public class WalletServiceImpl implements WalletService {
             return false;
         }
     }
+
+    // todo replenish balance with different currencies
 
     @Transactional
     @Override
