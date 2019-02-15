@@ -24,19 +24,19 @@ public class ConverterImpl implements Converter {
         if (convertFrom.getTypeValue().equals("UAH")) {
             if (convertTo.getTypeValue().equals("USD")) {
                 result = amount * currentRates.get(convertFrom).get(0);
-            } else if (convertFrom.getTypeValue().equals("EUR")) {
+            } else {
                 result = amount * currentRates.get(convertFrom).get(1);
             }
         } else if (convertFrom.getTypeValue().equals("USD")) {
             if (convertTo.getTypeValue().equals("UAH")) {
                 result = amount * currentRates.get(convertFrom).get(0);
-            } else if (convertFrom.getTypeValue().equals("EUR")) {
+            } else {
                 result = amount * currentRates.get(convertFrom).get(1);
             }
         } else if (convertFrom.getTypeValue().equals("EUR")) {
             if (convertTo.getTypeValue().equals("UAH")) {
                 result = amount * currentRates.get(convertFrom).get(0);
-            } else if (convertFrom.getTypeValue().equals("USD")) {
+            } else {
                 result = amount * currentRates.get(convertFrom).get(1);
             }
         } else {

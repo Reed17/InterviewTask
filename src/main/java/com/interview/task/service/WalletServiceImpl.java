@@ -2,6 +2,7 @@ package com.interview.task.service;
 
 import com.interview.task.converter.Converter;
 import com.interview.task.entity.Wallet;
+import com.interview.task.enums.Currency;
 import com.interview.task.exceptions.InvalidOrEmptyAmountException;
 import com.interview.task.exceptions.LowBalanceException;
 import com.interview.task.repository.WalletRepository;
@@ -24,14 +25,9 @@ public class WalletServiceImpl implements WalletService {
     @Transactional
     @Override
     public boolean replenishBalance(final Long clientWalletFrom, final Long clientWalletTo, final Double amount) {
-        amountChecker(amount);
-        try {
-            subtract(clientWalletFrom, amount);
-            add(clientWalletTo, amount);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        subtract(clientWalletFrom, amount);
+        add(clientWalletTo, amount);
+        return true;
     }
 
     @Transactional
@@ -40,24 +36,19 @@ public class WalletServiceImpl implements WalletService {
         Wallet from = walletRepository.getOne(clientWalletFrom);
         Wallet to = walletRepository.getOne(clientWalletTo);
         if (!(from.getCurrency().getTypeValue().equals(to.getCurrency().getTypeValue()))) {
-            try {
-                // todo check current balance
-                checkCurrentBalance(amount, from.getBalance());
-                Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
-                System.out.println(convertedSum);
-                // todo do reduce operation first
-                reduceBalance(amount, from);
-                // todo save operation
-                walletRepository.save(from);
-                // todo add balance
-                addBalance(convertedSum, to);
-                // todo save operation
-                walletRepository.save(to);
-                return true;
-            } catch (Exception e) {
-                System.out.println(e.getLocalizedMessage());
-                return false;
-            }
+            // todo check current balance
+            checkCurrentBalance(amount, from.getBalance(), from.getCurrency());
+            Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
+            System.out.println(convertedSum);
+            // todo do reduce operation first
+            reduceBalance(amount, from);
+            // todo save operation
+            walletRepository.save(from);
+            // todo add balance
+            addBalance(convertedSum, to);
+            // todo save operation
+            walletRepository.save(to);
+            return true;
         }
         return false;
     }
@@ -65,8 +56,8 @@ public class WalletServiceImpl implements WalletService {
     @Transactional
     @Override
     public void add(final Long clientWalletId, final Double amount) throws InvalidOrEmptyAmountException {
-        amountChecker(amount);
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
+        amountChecker(amount, clientWallet.getCurrency());
         addBalance(amount, clientWallet);
         walletRepository.save(clientWallet);
     }
@@ -80,28 +71,28 @@ public class WalletServiceImpl implements WalletService {
     @Transactional
     @Override
     public void subtract(Long clientWalletId, Double amount) throws InvalidOrEmptyAmountException, LowBalanceException {
-        amountChecker(amount);
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
+        amountChecker(amount, clientWallet.getCurrency());
         reduceBalance(amount, clientWallet);
         walletRepository.save(clientWallet);
     }
 
     private void reduceBalance(Double amount, Wallet clientWallet) {
         Double currentBalance = clientWallet.getBalance();
-        checkCurrentBalance(amount, currentBalance);
+        checkCurrentBalance(amount, currentBalance, clientWallet.getCurrency());
         currentBalance -= amount;
         clientWallet.setBalance(currentBalance);
     }
 
-    private void checkCurrentBalance(final Double amount, final Double currentBalance) {
+    private void checkCurrentBalance(final Double amount, final Double currentBalance, final Currency currency) {
         if (currentBalance < amount) {
-            throw new LowBalanceException(String.format("Your balance is low : %.2f", currentBalance));
+            throw new LowBalanceException(String.format("Your balance is low : %.2f %s", currentBalance, currency.getTypeValue()));
         }
     }
 
-    private void amountChecker(final Double amount) throws InvalidOrEmptyAmountException {
+    private void amountChecker(final Double amount, final Currency currency) throws InvalidOrEmptyAmountException {
         if (amount == null || amount < 1) {
-            throw new InvalidOrEmptyAmountException(String.format("Invalid or empty amount : %.2f", amount));
+            throw new InvalidOrEmptyAmountException(String.format("Invalid or empty amount : %.2f %s", amount, currency.getTypeValue()));
         }
     }
 }
