@@ -34,15 +34,47 @@ public class WalletServiceImpl implements WalletService {
         }
     }
 
-    // todo replenish balance with different currencies
+    @Transactional
+    @Override
+    public boolean replenishBalanceByDifferentCurrencies(final Long clientWalletFrom, final Long clientWalletTo, final Double amount) {
+        Wallet from = walletRepository.getOne(clientWalletFrom);
+        Wallet to = walletRepository.getOne(clientWalletTo);
+        if (!(from.getCurrency().getTypeValue().equals(to.getCurrency().getTypeValue()))) {
+            try {
+                // todo check current balance
+                checkCurrentBalance(amount, from.getBalance());
+                Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
+                System.out.println(convertedSum);
+                // todo do reduce operation first
+                reduceBalance(amount, from);
+                // todo save operation
+                walletRepository.save(from);
+                // todo add balance
+                addBalance(convertedSum, to);
+                // todo save operation
+                walletRepository.save(to);
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+                return false;
+            }
+        }
+        return false;
+    }
 
     @Transactional
     @Override
     public void add(final Long clientWalletId, final Double amount) throws InvalidOrEmptyAmountException {
         amountChecker(amount);
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
-        clientWallet.setBalance(clientWallet.getBalance() + amount);
+        addBalance(amount, clientWallet);
         walletRepository.save(clientWallet);
+    }
+
+    private void addBalance(Double amount, Wallet clientWallet) {
+        Double currentBalance = clientWallet.getBalance();
+        currentBalance += amount;
+        clientWallet.setBalance(currentBalance);
     }
 
     @Transactional
@@ -50,13 +82,21 @@ public class WalletServiceImpl implements WalletService {
     public void subtract(Long clientWalletId, Double amount) throws InvalidOrEmptyAmountException, LowBalanceException {
         amountChecker(amount);
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
+        reduceBalance(amount, clientWallet);
+        walletRepository.save(clientWallet);
+    }
+
+    private void reduceBalance(Double amount, Wallet clientWallet) {
         Double currentBalance = clientWallet.getBalance();
+        checkCurrentBalance(amount, currentBalance);
+        currentBalance -= amount;
+        clientWallet.setBalance(currentBalance);
+    }
+
+    private void checkCurrentBalance(final Double amount, final Double currentBalance) {
         if (currentBalance < amount) {
             throw new LowBalanceException(String.format("Your balance is low : %.2f", currentBalance));
         }
-        currentBalance -= amount;
-        clientWallet.setBalance(currentBalance);
-        walletRepository.save(clientWallet);
     }
 
     private void amountChecker(final Double amount) throws InvalidOrEmptyAmountException {

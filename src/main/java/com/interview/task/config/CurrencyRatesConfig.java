@@ -14,7 +14,7 @@ public class CurrencyRatesConfig {
     @NestedConfigurationProperty
     private Eur eur;
 
-    public class Uah {
+    public static class Uah {
         private Double usd;
         private Double eur;
 
@@ -35,7 +35,7 @@ public class CurrencyRatesConfig {
         }
     }
 
-    public class Usd {
+    public static class Usd {
         private Double uah;
         private Double eur;
 
@@ -56,7 +56,7 @@ public class CurrencyRatesConfig {
         }
     }
 
-    public class Eur {
+    public static class Eur {
         private Double uah;
         private Double usd;
 

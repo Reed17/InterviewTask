@@ -86,6 +86,18 @@ public class ClientController {
         return ResponseEntity.ok().body(isReplenished);
     }
 
+    @PutMapping("/{fromId}/multicurr/{toId}")
+    public ResponseEntity<?> replenishBalanceMultiCurrency(@PathVariable("fromId") final Long fromId,
+                                                           @RequestParam("amount") final Double amount,
+                                                           @PathVariable("toId") final Long toId) {
+        final List<WalletDto> fromWallets = clientService.getAllClientWallets(fromId);
+        WalletDto fromWallet = fromWallets.get(0);
+        final List<WalletDto> toWallets = clientService.getAllClientWallets(toId);
+        WalletDto toWallet = toWallets.get(0);
+        boolean isMultiCurrReplenished = walletService.replenishBalanceByDifferentCurrencies(fromId, toId, amount);
+        return ResponseEntity.ok().body(isMultiCurrReplenished);
+    }
+
     @PostMapping("/{id}/wallet/new")
     public ResponseEntity<?> createNewClientWallet(@PathVariable("id") final Long clientId,
                                                    @RequestBody final WalletDto walletDto) throws WalletCreationLimitException {

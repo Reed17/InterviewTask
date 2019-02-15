@@ -21,22 +21,22 @@ public class ConverterImpl implements Converter {
     public Double convert(Double amount, Currency convertFrom, Currency convertTo) {
         Double result = 0.0;
         final Map<Currency, List<Double>> currentRates = getCourseRate(convertFrom);
-        if (convertFrom.getTypeValue().equals("uah")) {
-            if (convertTo.getTypeValue().equals("usd")) {
+        if (convertFrom.getTypeValue().equals("UAH")) {
+            if (convertTo.getTypeValue().equals("USD")) {
                 result = amount * currentRates.get(convertFrom).get(0);
-            } else {
+            } else if (convertFrom.getTypeValue().equals("EUR")) {
                 result = amount * currentRates.get(convertFrom).get(1);
             }
-        } else if (convertFrom.getTypeValue().equals("usd")) {
-            if (convertTo.getTypeValue().equals("uah")) {
+        } else if (convertFrom.getTypeValue().equals("USD")) {
+            if (convertTo.getTypeValue().equals("UAH")) {
                 result = amount * currentRates.get(convertFrom).get(0);
-            } else {
+            } else if (convertFrom.getTypeValue().equals("EUR")) {
                 result = amount * currentRates.get(convertFrom).get(1);
             }
-        } else if (convertFrom.getTypeValue().equals("eur")) {
-            if (convertTo.getTypeValue().equals("uah")) {
+        } else if (convertFrom.getTypeValue().equals("EUR")) {
+            if (convertTo.getTypeValue().equals("UAH")) {
                 result = amount * currentRates.get(convertFrom).get(0);
-            } else {
+            } else if (convertFrom.getTypeValue().equals("USD")) {
                 result = amount * currentRates.get(convertFrom).get(1);
             }
         } else {
@@ -51,20 +51,20 @@ public class ConverterImpl implements Converter {
         Double usdCourseRate;
         Double eurCourseRate;
         List<Double> fromCurrency = new ArrayList<>();
-        switch (currency) {
-            case UAH:
+        switch (currency.getTypeValue()) {
+            case "UAH":
                 CurrencyRatesConfig.Uah uahRate = currencyRatesConfig.getUah();
                 usdCourseRate = uahRate.getUsd();
                 eurCourseRate = uahRate.getEur();
                 fromCurrency.addAll(Arrays.asList(usdCourseRate, eurCourseRate));
                 break;
-            case USD:
+            case "USD":
                 CurrencyRatesConfig.Usd usdRate = currencyRatesConfig.getUsd();
                 uahCourseRate = usdRate.getUah();
                 eurCourseRate = usdRate.getEur();
                 fromCurrency.addAll(Arrays.asList(uahCourseRate, eurCourseRate));
                 break;
-            case EUR:
+            case "EUR":
                 CurrencyRatesConfig.Eur eurRate = currencyRatesConfig.getEur();
                 uahCourseRate = eurRate.getUah();
                 usdCourseRate = eurRate.getUsd();

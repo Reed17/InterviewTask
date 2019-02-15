@@ -8,6 +8,7 @@ import com.interview.task.exceptions.LowBalanceException;
 
 public interface WalletService {
      boolean replenishBalance(Long clientWalletFrom, Long clientWalletTo, Double amount);
+     boolean replenishBalanceByDifferentCurrencies(Long clientWalletFrom, Long clientWalletTo, Double amount);
      void add(Long walletId, Double amount) throws InvalidOrEmptyAmountException;
      void subtract(Long walletId, Double amount) throws InvalidOrEmptyAmountException, LowBalanceException;
 }
