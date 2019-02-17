@@ -1,21 +1,29 @@
 ## Data source properties
 spring:
   jpa:
+    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
         generate_statistics: false
         show_sql: false
         format_sql: false
         use_sql_comments: false
-    generate-ddl: true
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/storage?createDatabaseIfNotExist=true
-    username: root
-    password: root
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+app:
+  jwt:
+    secretKey: JwtSecretKey
+    expirationTimeMs: 604800000
+  header:
+    name: Authorization
+    type: "Bearer "
 
 currency:
   uah:
