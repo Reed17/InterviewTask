@@ -10,42 +10,43 @@ import java.util.*;
 @Component
 public class ConverterImpl implements Converter {
 
-    private CurrencyRatesConfig currencyRatesConfig;
+    private final CurrencyRatesConfig currencyRatesConfig;
 
     @Autowired
-    public ConverterImpl(CurrencyRatesConfig currencyRatesConfig) {
+    public ConverterImpl(final CurrencyRatesConfig currencyRatesConfig) {
         this.currencyRatesConfig = currencyRatesConfig;
     }
 
     @Override
     public Double convert(Double amount, Currency convertFrom, Currency convertTo) {
         Double result = 0.0;
-        final Map<Currency, List<Double>> currentRates = getCourseRate(convertFrom);
+        final Map<Currency, List<Double>> allRates = getCourseRate(convertFrom);
+        final List<Double> singleRateValues = allRates.get(convertFrom);
+        // todo think is it real to handle with streams?
         if (convertFrom.getTypeValue().equals("UAH")) {
             if (convertTo.getTypeValue().equals("USD")) {
-                result = amount * currentRates.get(convertFrom).get(0);
+                // todo  think can we handle here with streams?
+                // todo how to remove if/else ???
+                result = amount * singleRateValues.get(0);
             } else {
-                result = amount * currentRates.get(convertFrom).get(1);
+                result = amount * singleRateValues.get(1);
             }
         } else if (convertFrom.getTypeValue().equals("USD")) {
             if (convertTo.getTypeValue().equals("UAH")) {
-                result = amount * currentRates.get(convertFrom).get(0);
+                result = amount * singleRateValues.get(0);
             } else {
-                result = amount * currentRates.get(convertFrom).get(1);
+                result = amount * singleRateValues.get(1);
             }
         } else if (convertFrom.getTypeValue().equals("EUR")) {
             if (convertTo.getTypeValue().equals("UAH")) {
-                result = amount * currentRates.get(convertFrom).get(0);
+                result = amount * singleRateValues.get(0);
             } else {
-                result = amount * currentRates.get(convertFrom).get(1);
+                result = amount * singleRateValues.get(1);
             }
-        } else {
-            // todo handle some unpredictable situation
         }
         return result;
     }
 
-    // todo return current course rate for one currency
     private Map<Currency, List<Double>> getCourseRate(Currency currency) {
         Double uahCourseRate;
         Double usdCourseRate;
@@ -71,6 +72,6 @@ public class ConverterImpl implements Converter {
                 fromCurrency.addAll(Arrays.asList(uahCourseRate, usdCourseRate));
                 break;
         }
-        return new HashMap<Currency, List<Double>>() {{ put(currency, fromCurrency); }};
+        return new HashMap<>() {{ put(currency, fromCurrency); }};
     }
 }
