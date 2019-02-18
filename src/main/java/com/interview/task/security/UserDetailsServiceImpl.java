@@ -1,8 +1,7 @@
-package com.interview.task.security.service;
+package com.interview.task.security;
 
-import com.interview.task.security.entity.User;
-import com.interview.task.security.security.UserPrincipal;
-import com.interview.task.security.repository.UserRepository;
+import com.interview.task.entity.User;
+import com.interview.task.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

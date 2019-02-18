@@ -1,13 +1,11 @@
 package com.interview.task.dto;
 
-import com.interview.task.entity.Client;
 import com.interview.task.enums.Currency;
 
 public class WalletDto {
     private Long walletId;
     private Currency currency;
     private Double balance;
-    //private Client client;
 
     public WalletDto() {
     }
@@ -22,13 +20,6 @@ public class WalletDto {
         this.currency = currency;
         this.balance = balance;
     }
-
-    /*public WalletDto(Long walletId, Currency currency, Double balance, Client client) {
-        this.walletId = walletId;
-        this.currency = currency;
-        this.balance = balance;
-        this.client = client;
-    }*/
 
     public Long getWalletId() {
         return walletId;
@@ -54,11 +45,4 @@ public class WalletDto {
         this.balance = balance;
     }
 
-    /*public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }*/
 }

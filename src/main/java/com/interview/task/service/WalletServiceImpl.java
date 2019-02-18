@@ -40,18 +40,13 @@ public class WalletServiceImpl implements WalletService {
         Wallet from = walletRepository.getOne(clientWalletFrom);
         Wallet to = walletRepository.getOne(clientWalletTo);
         if (!(from.getCurrency().getTypeValue().equals(to.getCurrency().getTypeValue()))) {
-            // todo check current balance
             checkCurrentBalance(amount, from.getBalance(), from.getCurrency());
             Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
             convertedSum = Math.round(convertedSum * 100.0) / 100.0;
             System.out.println(convertedSum);
-            // todo do reduce operation first
             reduceBalance(amount, from);
-            // todo save operation
             walletRepository.save(from);
-            // todo add balance
             addBalance(convertedSum, to);
-            // todo save operation
             walletRepository.save(to);
             return true;
         }
@@ -93,6 +88,11 @@ public class WalletServiceImpl implements WalletService {
     public WalletDto getWallet(final Long walletId) {
         final Wallet wallet = walletRepository.getOne(walletId);
         return walletMapper.toDto(wallet);
+    }
+
+    @Override
+    public void removeWallet(Long walletId) {
+        walletRepository.deleteById(walletId);
     }
 
     private void checkCurrentBalance(final Double amount, final Double currentBalance, final Currency currency) {

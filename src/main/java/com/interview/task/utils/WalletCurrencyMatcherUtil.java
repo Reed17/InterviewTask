@@ -10,9 +10,9 @@ import java.util.List;
 @Component
 public class WalletCurrencyMatcherUtil {
 
-    public static void checkAvailableCurrencyForCreation(Currency currencyToAdd, List<WalletDto> clientWallets) {
-        for (WalletDto clientWallet : clientWallets) {
-            if (clientWallet.getCurrency().getTypeValue().equals(currencyToAdd.getTypeValue())) {
+    public static void checkAvailableCurrencyForCreation(Currency currencyToAdd, List<WalletDto> userWallets) {
+        for (WalletDto userWallet : userWallets) {
+            if (userWallet.getCurrency().getTypeValue().equals(currencyToAdd.getTypeValue())) {
                 final String message = String.format("You've already created wallet with currency %s", currencyToAdd.getTypeValue());
                 throw new WalletWithPointedCurrencyAlreadyExistsException(message);
             }

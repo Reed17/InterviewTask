@@ -3,6 +3,7 @@ package com.interview.task.entity;
 import com.interview.task.enums.Currency;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
@@ -18,10 +19,6 @@ public class Wallet {
 
     private Double balance;
 
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clientId")
-    private Client client;*/
-
     public Wallet() {
     }
 
@@ -29,12 +26,6 @@ public class Wallet {
         this.currency = currency;
         this.balance = balance;
     }
-
-    /*public Wallet(Currency currency, Double balance, Client client) {
-        this.currency = currency;
-        this.balance = balance;
-        this.client = client;
-    }*/
 
     public Long getWalletId() {
         return walletId;
@@ -60,14 +51,6 @@ public class Wallet {
         this.balance = balance;
     }
 
-    /*public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -87,7 +70,6 @@ public class Wallet {
                 "walletId=" + walletId +
                 ", currency=" + currency +
                 ", balance=" + balance +
-                //", client=" + client +
                 '}';
     }
 }

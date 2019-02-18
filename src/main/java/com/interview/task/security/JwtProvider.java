@@ -1,6 +1,6 @@
-package com.interview.task.security.security;
+package com.interview.task.security;
 
-import com.interview.task.security.config.JwtProperties;
+import com.interview.task.config.JwtProperties;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
-package com.interview.task.security.security;
+package com.interview.task.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.interview.task.security.entity.User;
+import com.interview.task.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +34,7 @@ public class UserPrincipal implements UserDetails {
         final Set<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
                 new SimpleGrantedAuthority(role.name())).collect(Collectors.toSet());
         return new UserPrincipal(
-                user.getId(),
+                user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),

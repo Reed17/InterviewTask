@@ -6,16 +6,16 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        dialect: org.hibernate.dialect.MySQL5Dialect
         generate_statistics: false
         show_sql: false
         format_sql: false
         use_sql_comments: false
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/storage?createDatabaseIfNotExist=true
+    username: root
+    password: root
 
 app:
   jwt:

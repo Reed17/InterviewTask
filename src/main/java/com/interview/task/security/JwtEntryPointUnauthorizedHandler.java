@@ -1,4 +1,4 @@
-package com.interview.task.security.security;
+package com.interview.task.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -16,6 +16,6 @@ public class JwtEntryPointUnauthorizedHandler implements AuthenticationEntryPoin
             final HttpServletRequest request,
             final HttpServletResponse response,
             final AuthenticationException authException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You're not authorized to access this resource.");
     }
 }

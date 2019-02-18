@@ -22,26 +22,28 @@ public class ConverterImpl implements Converter {
         Double result = 0.0;
         final Map<Currency, List<Double>> allRates = getCourseRate(convertFrom);
         final List<Double> singleRateValues = allRates.get(convertFrom);
+        final Double curr1 = singleRateValues.get(0);
+        final Double curr2 = singleRateValues.get(1);
         // todo think is it real to handle with streams?
         if (convertFrom.getTypeValue().equals("UAH")) {
             if (convertTo.getTypeValue().equals("USD")) {
                 // todo  think can we handle here with streams?
                 // todo how to remove if/else ???
-                result = amount * singleRateValues.get(0);
+                result = amount * curr1;
             } else {
-                result = amount * singleRateValues.get(1);
+                result = amount * curr2;
             }
         } else if (convertFrom.getTypeValue().equals("USD")) {
             if (convertTo.getTypeValue().equals("UAH")) {
-                result = amount * singleRateValues.get(0);
+                result = amount * curr1;
             } else {
-                result = amount * singleRateValues.get(1);
+                result = amount * curr2;
             }
         } else if (convertFrom.getTypeValue().equals("EUR")) {
             if (convertTo.getTypeValue().equals("UAH")) {
-                result = amount * singleRateValues.get(0);
+                result = amount * curr1;
             } else {
-                result = amount * singleRateValues.get(1);
+                result = amount * curr2;
             }
         }
         return result;
@@ -72,6 +74,6 @@ public class ConverterImpl implements Converter {
                 fromCurrency.addAll(Arrays.asList(uahCourseRate, usdCourseRate));
                 break;
         }
-        return new HashMap<>() {{ put(currency, fromCurrency); }};
+        return new HashMap<Currency, List<Double>>() {{ put(currency, fromCurrency); }};
     }
 }

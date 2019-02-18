@@ -1,30 +1,36 @@
 package com.interview.task.dto;
 
 import com.interview.task.entity.Wallet;
-import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
-public class ClientDto {
+public class SignUpRequest {
     private Long clientId;
-    private String name;
+    @NotBlank
+    private String username;
+    @Email
+    @NotBlank
     private String email;
+    @NotBlank
     private String password;
+    @NotBlank
     private Set<Wallet> wallets;
 
-    public ClientDto() {
+    public SignUpRequest() {
     }
 
-    public ClientDto(String name, String email, String password, Set<Wallet> wallets) {
-        this.name = name;
+    public SignUpRequest(String username, String email, String password, Set<Wallet> wallets) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.wallets = wallets;
     }
 
-    public ClientDto(Long clientId, String name, String email, String password, Set<Wallet> wallets) {
+    public SignUpRequest(Long clientId, String username, String email, String password, Set<Wallet> wallets) {
         this.clientId = clientId;
-        this.name = name;
+        this.username = username;
         this.email = email;
         this.password = password;
         this.wallets = wallets;
@@ -38,12 +44,12 @@ public class ClientDto {
         this.clientId = clientId;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
