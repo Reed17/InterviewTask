@@ -1,79 +1,52 @@
 package com.interview.task.converter;
 
-import com.interview.task.config.CurrencyRatesConfig;
+import com.interview.task.config.EurCurrencyRates;
+import com.interview.task.config.UahCurrencyRates;
+import com.interview.task.config.UsdCurrencyRates;
 import com.interview.task.enums.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
-
 @Component
 public class ConverterImpl implements Converter {
 
-    private final CurrencyRatesConfig currencyRatesConfig;
+    private final UahCurrencyRates uahCurrencyRates;
+    private final UsdCurrencyRates usdCurrencyRates;
+    private final EurCurrencyRates eurCurrencyRates;
 
     @Autowired
-    public ConverterImpl(final CurrencyRatesConfig currencyRatesConfig) {
-        this.currencyRatesConfig = currencyRatesConfig;
+    public ConverterImpl(
+            final UahCurrencyRates uahCurrencyRates,
+            final UsdCurrencyRates usdCurrencyRates,
+            final EurCurrencyRates eurCurrencyRates) {
+        this.uahCurrencyRates = uahCurrencyRates;
+        this.usdCurrencyRates = usdCurrencyRates;
+        this.eurCurrencyRates = eurCurrencyRates;
     }
 
     @Override
     public Double convert(Double amount, Currency convertFrom, Currency convertTo) {
         Double result = 0.0;
-        final Map<Currency, List<Double>> allRates = getCourseRate(convertFrom);
-        final List<Double> singleRateValues = allRates.get(convertFrom);
-        final Double curr1 = singleRateValues.get(0);
-        final Double curr2 = singleRateValues.get(1);
-        // todo think is it real to handle with streams?
         if (convertFrom.getTypeValue().equals("UAH")) {
             if (convertTo.getTypeValue().equals("USD")) {
-                // todo  think can we handle here with streams?
-                // todo how to remove if/else ???
-                result = amount * curr1;
+                result = amount * uahCurrencyRates.getUsd();
             } else {
-                result = amount * curr2;
+                result = amount * uahCurrencyRates.getEur();
             }
         } else if (convertFrom.getTypeValue().equals("USD")) {
             if (convertTo.getTypeValue().equals("UAH")) {
-                result = amount * curr1;
+                result = amount * usdCurrencyRates.getUah();
             } else {
-                result = amount * curr2;
+                result = amount * usdCurrencyRates.getEur();
             }
         } else if (convertFrom.getTypeValue().equals("EUR")) {
             if (convertTo.getTypeValue().equals("UAH")) {
-                result = amount * curr1;
+                result = amount * eurCurrencyRates.getUah();
             } else {
-                result = amount * curr2;
+                result = amount * eurCurrencyRates.getUsd();
             }
         }
         return result;
     }
 
-    private Map<Currency, List<Double>> getCourseRate(Currency currency) {
-        Double uahCourseRate;
-        Double usdCourseRate;
-        Double eurCourseRate;
-        List<Double> fromCurrency = new ArrayList<>();
-        switch (currency.getTypeValue()) {
-            case "UAH":
-                CurrencyRatesConfig.Uah uahRate = currencyRatesConfig.getUah();
-                usdCourseRate = uahRate.getUsd();
-                eurCourseRate = uahRate.getEur();
-                fromCurrency.addAll(Arrays.asList(usdCourseRate, eurCourseRate));
-                break;
-            case "USD":
-                CurrencyRatesConfig.Usd usdRate = currencyRatesConfig.getUsd();
-                uahCourseRate = usdRate.getUah();
-                eurCourseRate = usdRate.getEur();
-                fromCurrency.addAll(Arrays.asList(uahCourseRate, eurCourseRate));
-                break;
-            case "EUR":
-                CurrencyRatesConfig.Eur eurRate = currencyRatesConfig.getEur();
-                uahCourseRate = eurRate.getUah();
-                usdCourseRate = eurRate.getUsd();
-                fromCurrency.addAll(Arrays.asList(uahCourseRate, usdCourseRate));
-                break;
-        }
-        return new HashMap<Currency, List<Double>>() {{ put(currency, fromCurrency); }};
-    }
 }
