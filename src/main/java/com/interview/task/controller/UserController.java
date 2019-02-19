@@ -3,13 +3,11 @@ package com.interview.task.controller;
 import com.interview.task.dto.UserDto;
 import com.interview.task.dto.WalletDto;
 import com.interview.task.exceptions.WalletCreationLimitException;
-import com.interview.task.security.UserPrincipal;
 import com.interview.task.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,8 +23,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getClient(@AuthenticationPrincipal final UserPrincipal userPrincipal) {
-        return ResponseEntity.ok().body(userService.getUserById(userPrincipal.getUserId()));
+    public ResponseEntity<?> getClient(@PathVariable("id") final Long userId) {
+        return ResponseEntity.ok().body(userService.getUserById(userId));
     }
 
     @GetMapping

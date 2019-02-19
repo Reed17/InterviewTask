@@ -2,15 +2,15 @@ package com.interview.task.service;
 
 import com.interview.task.dto.UserDto;
 import com.interview.task.dto.WalletDto;
+import com.interview.task.entity.User;
 import com.interview.task.entity.Wallet;
 import com.interview.task.enums.Role;
 import com.interview.task.exceptions.UserNotFoundException;
 import com.interview.task.exceptions.WalletCreationLimitException;
 import com.interview.task.mapper.UserMapper;
 import com.interview.task.mapper.WalletMapper;
-import com.interview.task.repository.WalletRepository;
-import com.interview.task.entity.User;
 import com.interview.task.repository.UserRepository;
+import com.interview.task.repository.WalletRepository;
 import com.interview.task.utils.WalletCurrencyMatcherUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,12 +1,12 @@
 package com.interview.task.service;
 
-import com.interview.task.exceptions.UserAlreadyExistsException;
 import com.interview.task.config.HeaderProperties;
 import com.interview.task.config.JwtProperties;
-import com.interview.task.entity.User;
 import com.interview.task.dto.JwtAuthenticationResponse;
 import com.interview.task.dto.LoginRequest;
 import com.interview.task.dto.SignUpRequest;
+import com.interview.task.entity.User;
+import com.interview.task.exceptions.UserAlreadyExistsException;
 import com.interview.task.security.JwtProvider;
 import com.interview.task.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;

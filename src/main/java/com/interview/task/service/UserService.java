@@ -2,8 +2,8 @@ package com.interview.task.service;
 
 import com.interview.task.dto.UserDto;
 import com.interview.task.dto.WalletDto;
-import com.interview.task.exceptions.WalletCreationLimitException;
 import com.interview.task.entity.User;
+import com.interview.task.exceptions.WalletCreationLimitException;
 
 import java.util.List;
 import java.util.Optional;

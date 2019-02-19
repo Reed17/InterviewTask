@@ -3,7 +3,6 @@ package com.interview.task.entity;
 import com.interview.task.enums.Currency;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity

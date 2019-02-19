@@ -2,20 +2,13 @@ package com.interview.task.dto;
 
 import com.interview.task.entity.Wallet;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class SignUpRequest {
     private Long clientId;
-    @NotBlank
     private String username;
-    @Email
-    @NotBlank
     private String email;
-    @NotBlank
     private String password;
-    @NotBlank
     private Set<Wallet> wallets;
 
     public SignUpRequest() {
