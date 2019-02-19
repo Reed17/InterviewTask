@@ -16,18 +16,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository) {
+    public UserDetailsServiceImpl(final UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+        final Optional<User> user = userRepository.findByEmail(email);
         return UserPrincipal.create(user.get());
     }
 
     public UserDetails loadUserById(final Long userId) {
-        Optional<User> user = userRepository.findById(userId);
+        final Optional<User> user = userRepository.findById(userId);
         return UserPrincipal.create(user.get());
     }
 }

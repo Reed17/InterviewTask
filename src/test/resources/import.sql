@@ -1,4 +1,4 @@
-INSERT INTO app_user (user_id, username, email, password, wallets) VALUES (1, 'Egor', 'Egor@gmail.com', '$2a$10$Tc7eieQCxKhxYpCQRqDptebCjSw6qUTg3lvb1tcCo8bBEI7Alk5oi', 1);
+/*INSERT INTO app_user (user_id, username, email, password, wallets) VALUES (1, 'Egor', 'Egor@gmail.com', '$2a$10$Tc7eieQCxKhxYpCQRqDptebCjSw6qUTg3lvb1tcCo8bBEI7Alk5oi', 1);
 INSERT INTO app_user (user_id, username, email, password, wallets) VALUES (2, 'Ivan', 'Ivan@gmail.com', '$2a$10$Tc7eieQCxKhxYpCQRqDptebCjSw6qUTg3lvb1tcCo8bBEI7Alk5oi', 2);
 INSERT INTO app_user (user_id, username, email, password, wallets) VALUES (3, 'Gena', 'Gena@gmail.com', '$2a$10$Tc7eieQCxKhxYpCQRqDptebCjSw6qUTg3lvb1tcCo8bBEI7Alk5oi', 3);
 INSERT INTO app_user (user_id, username, email, password, wallets) VALUES (4, 'George', 'George@gmail.com', '$2a$10$Tc7eieQCxKhxYpCQRqDptebCjSw6qUTg3lvb1tcCo8bBEI7Alk5oi', 4);
@@ -30,3 +30,4 @@ INSERT INTO app_user_wallets (user_user_id, wallets_wallet_id) VALUES (5, 5);
 INSERT INTO app_user_wallets (user_user_id, wallets_wallet_id) VALUES (6, 6);
 INSERT INTO app_user_wallets (user_user_id, wallets_wallet_id) VALUES (7, 7);
 
+*/

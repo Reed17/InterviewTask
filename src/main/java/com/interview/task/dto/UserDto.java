@@ -3,8 +3,6 @@ package com.interview.task.dto;
 import com.interview.task.entity.Wallet;
 import com.interview.task.enums.Role;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 public class UserDto {

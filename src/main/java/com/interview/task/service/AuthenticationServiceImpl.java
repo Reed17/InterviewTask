@@ -1,12 +1,13 @@
 package com.interview.task.service;
 
-import com.interview.task.exceptions.UserAlreadyExistsException;
 import com.interview.task.config.HeaderProperties;
 import com.interview.task.config.JwtProperties;
-import com.interview.task.entity.User;
 import com.interview.task.dto.JwtAuthenticationResponse;
 import com.interview.task.dto.LoginRequest;
 import com.interview.task.dto.SignUpRequest;
+import com.interview.task.entity.User;
+import com.interview.task.enums.Message;
+import com.interview.task.exceptions.UserAlreadyExistsException;
 import com.interview.task.security.JwtProvider;
 import com.interview.task.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,11 +46,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.jwtProvider = jwtProvider;
     }
 
+    @Transactional
     @Override
     public JwtAuthenticationResponse signIn(final LoginRequest loginRequest, final HttpServletResponse response) {
         final Optional<User> user = userService.getUserByEmail(loginRequest.getEmail());
         if (!user.isPresent()) {
-            throw new UsernameNotFoundException(String.format("User with email %s doesn't exists!", loginRequest.getEmail()));
+            throw new UsernameNotFoundException(Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody());
         }
         final User currentUser = user.get();
         final Authentication authentication = authenticationManager.authenticate(
@@ -58,19 +60,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         final UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         final String accessToken = jwtProvider.generateAccessToken(principal);
         response.setHeader(headerProperties.getName(), headerProperties.getType() + accessToken);
-        return new JwtAuthenticationResponse(
-                accessToken,
-                headerProperties.getType().trim(),
-                jwtProperties.getExpirationTimeMs(),
-                LocalDate.now(),
-                currentUser.getRoles());
+        return new JwtAuthenticationResponse(accessToken, LocalDate.now());
     }
 
+    //TODO
     @Transactional
     @Override
     public JwtAuthenticationResponse signUp(final SignUpRequest signUpRequest, final HttpServletResponse response) {
         if (userService.existsUserByEmail(signUpRequest.getEmail())) {
-            throw new UserAlreadyExistsException(String.format("Email %s already exists", signUpRequest.getEmail()));
+            throw new UserAlreadyExistsException(Message.USER_ALREADY_EXISTS.getMsgBody());
         }
         final User user = new User(
                 signUpRequest.getUsername(),
@@ -79,7 +77,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 signUpRequest.getWallets());
         userService.saveNewUser(user);
         final User newUser = userService.getUserByEmail(signUpRequest.getEmail()).orElseThrow(
-                () -> new UsernameNotFoundException(String.format("User with email %s doesn't exists!", signUpRequest.getEmail())));
+                () -> new UsernameNotFoundException(Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody()));
         final String accessToken = jwtProvider.generateAccessToken(UserPrincipal.create(newUser));
         response.setHeader(headerProperties.getName(), headerProperties.getType() + accessToken);
         return new JwtAuthenticationResponse(

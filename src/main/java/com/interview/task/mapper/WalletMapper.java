@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class WalletMapper {
 
-    public Wallet toEntity(WalletDto walletDto) {
+    public Wallet toEntity(final WalletDto walletDto) {
         final Wallet wallet = new Wallet();
         wallet.setWalletId(walletDto.getWalletId());
         wallet.setCurrency(walletDto.getCurrency());
@@ -15,7 +15,7 @@ public class WalletMapper {
         return wallet;
     }
 
-    public WalletDto toDto(Wallet wallet) {
+    public WalletDto toDto(final Wallet wallet) {
         final WalletDto walletDto = new WalletDto();
         walletDto.setWalletId(wallet.getWalletId());
         walletDto.setCurrency(wallet.getCurrency());

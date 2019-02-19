@@ -1,10 +1,8 @@
 package com.interview.task.controller;
 
 import com.interview.task.dto.ApiResponse;
-import com.interview.task.dto.WalletDto;
 import com.interview.task.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +15,7 @@ public class WalletController {
     private final WalletService walletService;
 
     @Autowired
-    public WalletController(WalletService walletService) {
+    public WalletController(final WalletService walletService) {
         this.walletService = walletService;
     }
 

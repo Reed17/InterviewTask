@@ -13,15 +13,15 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(final String email);
 
-    Optional<User> findById(Long userId);
+    Optional<User> findById(final Long userId);
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(final String username);
 
-    Boolean existsByUsername(String username);
+    Boolean existsByUsername(final String username);
 
-    Boolean existsByEmail(String email);
+    Boolean existsByEmail(final String email);
 
     @Query("SELECT " +
             "NEW com.interview.task.dto.WalletDto( " +

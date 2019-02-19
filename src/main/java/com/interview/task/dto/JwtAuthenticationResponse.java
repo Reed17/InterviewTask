@@ -15,6 +15,11 @@ public class JwtAuthenticationResponse {
     public JwtAuthenticationResponse() {
     }
 
+    public JwtAuthenticationResponse(String accessToken, LocalDate dateCreate) {
+        this.accessToken = accessToken;
+        this.dateCreate = dateCreate;
+    }
+
     public JwtAuthenticationResponse(String accessToken, String tokenType, Long expirationTimeMs, LocalDate dateCreate, Set<Role> role) {
         this.accessToken = accessToken;
         this.tokenType = tokenType;

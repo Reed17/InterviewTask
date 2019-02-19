@@ -3,15 +3,13 @@ package com.interview.task.entity;
 import com.interview.task.enums.Currency;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 @Entity
 public class Wallet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wallet_gen")
-    @SequenceGenerator(name = "wallet_gen", sequenceName = "wallet_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long walletId;
 
     @Enumerated(value = EnumType.STRING)
