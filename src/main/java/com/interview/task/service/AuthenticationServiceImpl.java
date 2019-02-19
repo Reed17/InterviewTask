@@ -46,14 +46,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.jwtProvider = jwtProvider;
     }
 
-    @Transactional
+    //@Transactional
     @Override
     public JwtAuthenticationResponse signIn(final LoginRequest loginRequest, final HttpServletResponse response) {
         final Optional<User> user = userService.getUserByEmail(loginRequest.getEmail());
         if (!user.isPresent()) {
             throw new UsernameNotFoundException(Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody());
         }
-        final User currentUser = user.get();
+        //final User currentUser = user.get();
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -64,7 +64,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     //TODO
-    @Transactional
+    //@Transactional
     @Override
     public JwtAuthenticationResponse signUp(final SignUpRequest signUpRequest, final HttpServletResponse response) {
         if (userService.existsUserByEmail(signUpRequest.getEmail())) {

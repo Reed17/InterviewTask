@@ -13,7 +13,7 @@ spring:
         use_sql_comments: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/storage?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/storage?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password: root
     initialization-mode: always
