@@ -9,7 +9,7 @@ import java.util.HashSet;
 @Component
 public class UserMapper {
 
-    public User toEntity(UserDto userDto) {
+    public User toEntity(final UserDto userDto) {
         final User user = new User();
         user.setUserId(userDto.getUserId());
         user.setUsername(userDto.getUsername());
@@ -28,7 +28,7 @@ public class UserMapper {
         return user;
     }
 
-    public UserDto toDto(User user) {
+    public UserDto toDto(final User user) {
         final UserDto userDto = new UserDto();
         userDto.setUserId(user.getUserId());
         userDto.setUsername(user.getUsername());

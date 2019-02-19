@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @EnableConfigurationProperties(value = {
-        UahCurrencyRates.class,
-        UsdCurrencyRates.class,
-        EurCurrencyRates.class,
+        UahCurrencyRateProperties.class,
+        UsdCurrencyRateProperties.class,
+        EurCurrencyRateProperties.class,
         JwtProperties.class,
         HeaderProperties.class})
 @SpringBootApplication

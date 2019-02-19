@@ -15,7 +15,7 @@ public class WalletController {
     private final WalletService walletService;
 
     @Autowired
-    public WalletController(WalletService walletService) {
+    public WalletController(final WalletService walletService) {
         this.walletService = walletService;
     }
 

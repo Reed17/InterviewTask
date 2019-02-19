@@ -4,6 +4,7 @@ import com.interview.task.dto.UserDto;
 import com.interview.task.dto.WalletDto;
 import com.interview.task.entity.User;
 import com.interview.task.entity.Wallet;
+import com.interview.task.enums.Message;
 import com.interview.task.enums.Role;
 import com.interview.task.exceptions.UserNotFoundException;
 import com.interview.task.exceptions.WalletCreationLimitException;
@@ -11,7 +12,7 @@ import com.interview.task.mapper.UserMapper;
 import com.interview.task.mapper.WalletMapper;
 import com.interview.task.repository.UserRepository;
 import com.interview.task.repository.WalletRepository;
-import com.interview.task.utils.WalletCurrencyMatcherUtil;
+import com.interview.task.utils.WalletCurrencyValidatorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,11 @@ public class UserServiceImpl implements UserService {
     private final WalletMapper walletMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, WalletRepository walletRepository,
-                           PasswordEncoder passwordEncoder, UserMapper userMapper, WalletMapper walletMapper) {
+    public UserServiceImpl(final UserRepository userRepository,
+                           final WalletRepository walletRepository,
+                           final PasswordEncoder passwordEncoder,
+                           final UserMapper userMapper,
+                           final WalletMapper walletMapper) {
         this.userRepository = userRepository;
         this.walletRepository = walletRepository;
         this.passwordEncoder = passwordEncoder;
@@ -42,29 +46,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(final String email) {
         if (!userRepository.existsByEmail(email)) {
-            throw new UserNotFoundException(String.format("User with email %s not found", email));
+            throw new UserNotFoundException(Message.USER_NOT_FOUND.getMsgBody());
         }
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public Boolean existsUserByEmail(String email) {
+    public Boolean existsUserByEmail(final String email) {
         return userRepository.existsByEmail(email);
     }
 
     @Override
-    public User saveNewUser(User user) {
+    public User saveNewUser(final User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(Role.USER));
         return userRepository.save(user);
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto) {
+    public UserDto updateUser(final UserDto userDto) {
         if (!userRepository.existsByEmail(userDto.getEmail())) {
-            throw new UserNotFoundException(String.format("User with email %s doesn't exists!", userDto.getEmail()));
+            throw new UserNotFoundException(Message.USER_NOT_FOUND.getMsgBody());
         }
         final User updated = userRepository.save(parseToUserEntity(userDto));
         return parseToUserDto(updated);
@@ -72,8 +76,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsers() {
-        List<UserDto> userDtoList = new ArrayList<>();
-        List<User> users = userRepository.findAll();
+        final List<UserDto> userDtoList = new ArrayList<>();
+        final List<User> users = userRepository.findAll();
         users.forEach(u -> userDtoList.add(
                 new UserDto(
                         u.getUserId(),
@@ -86,7 +90,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserById(Long userId) {
+    public UserDto getUserById(final Long userId) {
         final User user = userRepository.getOne(userId);
         return new UserDto(
                 user.getUserId(),
@@ -101,9 +105,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public WalletDto addWallet(final Long userId, final WalletDto walletDto) throws WalletCreationLimitException {
-        List<WalletDto> userWallets = userRepository.getAllClientWallets(userId);
-        WalletCurrencyMatcherUtil.checkAvailableCurrencyForCreation(walletDto.getCurrency(), userWallets);
-        Optional<User> user = userRepository.findById(userId);
+        final List<WalletDto> userWallets = userRepository.getAllClientWallets(userId);
+        WalletCurrencyValidatorUtil.checkAvailableCurrencyForCreation(walletDto.getCurrency(), userWallets);
+        final Optional<User> user = userRepository.findById(userId);
         if (userWallets.size() < 3) {
             Wallet savedWallet = walletRepository.save(parseToWalletEntity(walletDto));
             User currentUser = user.get();
@@ -111,7 +115,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(currentUser);
             return parseToWalletDto(savedWallet);
         } else {
-            throw new WalletCreationLimitException("You can create only 3 different wallets!");
+            throw new WalletCreationLimitException(Message.WALLET_CREATION_LIMIT.getMsgBody());
         }
     }
     @Transactional
@@ -121,23 +125,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUser(Long userId) {
+    public void removeUser(final Long userId) {
         userRepository.deleteById(userId);
     }
 
-    private User parseToUserEntity(UserDto userDto) {
+    private User parseToUserEntity(final UserDto userDto) {
         return userMapper.toEntity(userDto);
     }
 
-    private UserDto parseToUserDto(User user) {
+    private UserDto parseToUserDto(final User user) {
         return userMapper.toDto(user);
     }
 
-    private Wallet parseToWalletEntity(WalletDto walletDto) {
+    private Wallet parseToWalletEntity(final WalletDto walletDto) {
         return walletMapper.toEntity(walletDto);
     }
 
-    private WalletDto parseToWalletDto(Wallet wallet) {
+    private WalletDto parseToWalletDto(final Wallet wallet) {
         return walletMapper.toDto(wallet);
     }
 }

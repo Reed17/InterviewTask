@@ -22,7 +22,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtEntryPointUnauthorizedHandler jwtUnauthorizedHandler;
 
     @Autowired
-    public JwtAuthenticationFilter(final JwtProvider jwtProvider, final UserDetailsServiceImpl userDetailsService, final JwtEntryPointUnauthorizedHandler jwtUnauthorizedHandler) {
+    public JwtAuthenticationFilter(
+            final JwtProvider jwtProvider,
+            final UserDetailsServiceImpl userDetailsService,
+            final JwtEntryPointUnauthorizedHandler jwtUnauthorizedHandler) {
         this.jwtProvider = jwtProvider;
         this.userDetailsService = userDetailsService;
         this.jwtUnauthorizedHandler = jwtUnauthorizedHandler;

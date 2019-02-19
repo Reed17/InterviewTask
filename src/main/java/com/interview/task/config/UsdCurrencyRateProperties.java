@@ -4,17 +4,17 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "currency.uah")
-public class UahCurrencyRates {
-    private Double usd;
+@ConfigurationProperties(prefix = "currency.usd")
+public class UsdCurrencyRateProperties {
+    private Double uah;
     private Double eur;
 
-    public Double getUsd() {
-        return usd;
+    public Double getUah() {
+        return uah;
     }
 
-    public void setUsd(Double usd) {
-        this.usd = usd;
+    public void setUah(Double uah) {
+        this.uah = uah;
     }
 
     public Double getEur() {

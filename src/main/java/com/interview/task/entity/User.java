@@ -31,7 +31,6 @@ public class User {
 
     @NotBlank
     @Email
-    @NaturalId
     private String email;
 
     @NotBlank
@@ -39,10 +38,10 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "app_user_roles",
+    /*@CollectionTable(name = "app_user_roles",
         joinColumns = {
             @JoinColumn(name = "user_id")
-        })
+        })*/
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
