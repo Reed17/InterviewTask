@@ -35,16 +35,16 @@ public class WalletController {
 
     @PutMapping("/{fromId}/replenish/{toId}")
     public ResponseEntity<?> replenishUserBalance(@PathVariable("fromId") final Long fromWalletId,
-                                                    @RequestParam("amount") final Double amount,
-                                                    @PathVariable("toId") final Long toWalletId) {
+                                                  @PathVariable("toId") final Long toWalletId,
+                                                  @RequestParam("amount") final Double amount) {
         boolean isReplenished = walletService.replenishBalance(fromWalletId, toWalletId, amount);
         return ResponseEntity.ok().body(new ApiResponse(isReplenished, "Balance replenish operation successful!"));
     }
 
     @PutMapping("/{fromId}/multicurr/{toId}")
     public ResponseEntity<?> replenishBalanceMultiCurrency(@PathVariable("fromId") final Long fromWalletId,
-                                                           @RequestParam("amount") final Double amount,
-                                                           @PathVariable("toId") final Long toWalletId) {
+                                                           @PathVariable("toId") final Long toWalletId,
+                                                           @RequestParam("amount") final Double amount) {
         boolean isMultiCurrReplenished = walletService.replenishBalanceByDifferentCurrencies(fromWalletId, toWalletId, amount);
         return ResponseEntity.ok().body(
                 new ApiResponse(

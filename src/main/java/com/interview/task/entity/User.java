@@ -22,7 +22,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gen")
-    @SequenceGenerator(name = "user_gen", sequenceName = "user_id_seq")
+    @SequenceGenerator(name = "user_gen", sequenceName = "user_id_seq", allocationSize = 1)
     private Long userId;
 
     @NotBlank
@@ -38,10 +38,10 @@ public class User {
 
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
-    /*@CollectionTable(name = "app_user_roles",
+    @CollectionTable(name = "app_user_roles",
         joinColumns = {
             @JoinColumn(name = "user_id")
-        })*/
+        })
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -117,5 +117,17 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(userId, username);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", wallets=" + wallets +
+                '}';
     }
 }

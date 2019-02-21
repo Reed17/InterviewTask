@@ -46,8 +46,6 @@ public class WalletServiceImpl implements WalletService {
         if (!(from.getCurrency().getTypeValue().equals(to.getCurrency().getTypeValue()))) {
             checkCurrentBalance(amount, from.getBalance(), from.getCurrency());
             Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
-            // todo handling .xxx values how improve it?
-            convertedSum = Math.round(convertedSum * 100.0) / 100.0;
             reduceBalance(amount, from);
             walletRepository.save(from);
             addBalance(convertedSum, to);

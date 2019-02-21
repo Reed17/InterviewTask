@@ -23,34 +23,34 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getClient(@PathVariable("id") final Long userId) {
+    public ResponseEntity<?> getUser(@PathVariable("id") final Long userId) {
         return ResponseEntity.ok().body(userService.getUserById(userId));
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllClients() {
+    public ResponseEntity<?> getAllUsers() {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
     @PutMapping
-    public ResponseEntity<?> updateClient(@RequestBody final UserDto userDto) {
+    public ResponseEntity<?> updateUser(@RequestBody final UserDto userDto) {
         return ResponseEntity.ok().body(userService.updateUser(userDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteClient(@PathVariable("id") final Long userId) {
+    public ResponseEntity<?> deleteUser(@PathVariable("id") final Long userId) {
         userService.removeUser(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}/wallets")
-    public ResponseEntity<?> getClientWallets(@PathVariable("id") final Long userId) {
+    public ResponseEntity<?> getUserWallets(@PathVariable("id") final Long userId) {
         return ResponseEntity.ok().body(userService.getAllUserWallets(userId));
     }
 
-    @PostMapping("/{id}/wallet/new")
-    public ResponseEntity<?> createNewClientWallet(@PathVariable("id") final Long userId,
-                                                   @RequestBody final WalletDto walletDto) throws WalletCreationLimitException {
+    @PutMapping("/{id}/wallet/new")
+    public ResponseEntity<?> createNewUserWallet(@PathVariable("id") final Long userId,
+                                                 @RequestBody final WalletDto walletDto) throws WalletCreationLimitException {
         WalletDto createdWallet = userService.addWallet(userId, walletDto);
         return ResponseEntity.ok().body(createdWallet);
     }

@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> getUserByEmail(String email);
     Boolean existsUserByEmail(String email);
-    User saveNewUser(User userDto);
+    User saveNewUser(User user);
     UserDto updateUser(UserDto userDto);
     List<UserDto> getAllUsers();
     UserDto getUserById(Long userId);

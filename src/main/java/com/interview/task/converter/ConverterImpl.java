@@ -29,26 +29,32 @@ public class ConverterImpl implements Converter {
         double result = 0.0;
         switch (convertFrom.getTypeValue()) {
             case "UAH":
-                if (convertTo.getTypeValue().equals("USD")) {
-                    result = amount * uahCurrencyRateProperties.getUsd();
-                } else {
-                    result = amount * uahCurrencyRateProperties.getEur();
-                }
+                result = getResult(amount, convertTo, "USD",
+                        uahCurrencyRateProperties.getUsd(), uahCurrencyRateProperties.getEur());
                 break;
             case "USD":
-                if (convertTo.getTypeValue().equals("UAH")) {
-                    result = amount * usdCurrencyRateProperties.getUah();
-                } else {
-                    result = amount * usdCurrencyRateProperties.getEur();
-                }
+                result = getResult(amount, convertTo, "UAH",
+                        usdCurrencyRateProperties.getUah(), usdCurrencyRateProperties.getEur());
                 break;
             case "EUR":
-                if (convertTo.getTypeValue().equals("UAH")) {
-                    result = amount * eurCurrencyRateProperties.getUah();
-                } else {
-                    result = amount * eurCurrencyRateProperties.getUsd();
-                }
+                result = getResult(amount, convertTo, "UAH",
+                        eurCurrencyRateProperties.getUah(), eurCurrencyRateProperties.getUsd());
                 break;
+        }
+        return result;
+    }
+
+    private double getResult(
+            final Double amount,
+            final Currency convertTo,
+            final String currencyType,
+            final Double currencyFirstRate,
+            final Double currencyRemainingRate) {
+        double result;
+        if (convertTo.getTypeValue().equals(currencyType)) {
+            result = amount * currencyFirstRate;
+        } else {
+            result = amount * currencyRemainingRate;
         }
         return result;
     }

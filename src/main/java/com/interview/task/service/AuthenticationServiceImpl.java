@@ -10,6 +10,8 @@ import com.interview.task.enums.Message;
 import com.interview.task.exceptions.UserAlreadyExistsException;
 import com.interview.task.security.JwtProvider;
 import com.interview.task.security.UserPrincipal;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +27,8 @@ import java.util.Optional;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
 
     private final JwtProperties jwtProperties;
     private final HeaderProperties headerProperties;
@@ -46,14 +50,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.jwtProvider = jwtProvider;
     }
 
-    //@Transactional
+    @Transactional
     @Override
     public JwtAuthenticationResponse signIn(final LoginRequest loginRequest, final HttpServletResponse response) {
         final Optional<User> user = userService.getUserByEmail(loginRequest.getEmail());
         if (!user.isPresent()) {
+            LOG.error(Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody());
             throw new UsernameNotFoundException(Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody());
         }
-        //final User currentUser = user.get();
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -63,11 +67,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new JwtAuthenticationResponse(accessToken, LocalDate.now());
     }
 
-    //TODO
-    //@Transactional
+    @Transactional
     @Override
     public JwtAuthenticationResponse signUp(final SignUpRequest signUpRequest, final HttpServletResponse response) {
         if (userService.existsUserByEmail(signUpRequest.getEmail())) {
+            LOG.error(Message.USER_ALREADY_EXISTS.getMsgBody());
             throw new UserAlreadyExistsException(Message.USER_ALREADY_EXISTS.getMsgBody());
         }
         final User user = new User(

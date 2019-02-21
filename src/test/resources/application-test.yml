@@ -1,8 +1,5 @@
 spring:
-  profiles:
-    active: test
   jpa:
-    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
     properties:
@@ -18,7 +15,8 @@ spring:
     username: root
     password: root
     initialization-mode: always
-
+  profiles:
+    active: test
 app:
   jwt:
     secretKey: JwtSecretKey
