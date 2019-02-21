@@ -1,5 +1,8 @@
 package com.interview.task.dto;
 
+/**
+ * Represents api error response.
+ */
 public class ApiErrorResponse {
 
     private String errorName;

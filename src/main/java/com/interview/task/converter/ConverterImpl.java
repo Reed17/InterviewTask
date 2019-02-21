@@ -7,6 +7,9 @@ import com.interview.task.enums.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Class represents simple currency converter functionality.
+ */
 @Component
 public class ConverterImpl implements Converter {
 
@@ -24,6 +27,14 @@ public class ConverterImpl implements Converter {
         this.eurCurrencyRateProperties = eurCurrencyRateProperties;
     }
 
+    /**
+     * Method performs currency convertation.
+     *
+     * @param amount money amount
+     * @param convertFrom convert from this currency
+     * @param convertTo convert to this currency
+     * @return converted money amount
+     */
     @Override
     public Double convert(final Double amount, final Currency convertFrom, final Currency convertTo) {
         double result = 0.0;
@@ -44,6 +55,17 @@ public class ConverterImpl implements Converter {
         return result;
     }
 
+    /**
+     * Helpful method for convertation processing.
+     * Every currency in this application has two currency rates.
+     *
+     * @param amount money amount
+     * @param convertTo convert from this currency
+     * @param currencyType convert to this currency
+     * @param currencyFirstRate first currency rate
+     * @param currencyRemainingRate remaining currency rate
+     * @return processed result
+     */
     private double getResult(
             final Double amount,
             final Currency convertTo,

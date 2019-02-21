@@ -2,6 +2,9 @@ package com.interview.task.dto;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * Represents user data for login operation.
+ */
 public class LoginRequest {
 
     @NotBlank

@@ -20,6 +20,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Main security configuration.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -42,22 +45,44 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Authentication filter.
+     *
+     * @return JwtAuthenticationFilter authentication filter
+     */
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter(jwtProvider, userDetailsService, authEntryPoint);
     }
 
+    /**
+     * Authentication manager bean.
+     *
+     * @return AuthenticationManager authentication manager.
+     * @throws Exception if any error occurs.
+     */
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * Password encoder.
+     *
+     * @return PasswordEncoder password encoder.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Authentication configuration.
+     *
+     * @param auth AuthenticationManagerBuilder
+     * @throws Exception if any error occurs.
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -65,6 +90,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
+    /**
+     * Security configuration.
+     *
+     * @param http HttpSecurity
+     * @throws Exception if any error occurs.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+/**
+ * Authentication controller.
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
@@ -25,12 +28,26 @@ public class AuthenticationController {
         this.authService = authService;
     }
 
+    /**
+     * Method performs login operation for existing user.
+     *
+     * @param loginRequest valid user login and password.
+     * @param response HttpServletResponse
+     * @return ResponseEntity
+     */
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody @Valid final LoginRequest loginRequest,
                                     final HttpServletResponse response) {
         return ResponseEntity.ok().body(authService.signIn(loginRequest, response));
     }
 
+    /**
+     * Method performs registration operation for new users.
+     *
+     * @param signUpRequest contains user information.
+     * @param response HttpServletResponse
+     * @return ResponseEntity
+     */
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody @Valid final SignUpRequest signUpRequest,
                                     final HttpServletResponse response) {

@@ -5,6 +5,9 @@ import com.interview.task.enums.Role;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * Represents jwt authentication response.
+ */
 public class JwtAuthenticationResponse {
     private String accessToken;
     private String tokenType;
