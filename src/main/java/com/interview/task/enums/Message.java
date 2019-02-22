@@ -17,8 +17,8 @@ public enum Message {
     BALANCE_REPLENISH_OPERATION_SUCCESSFUL("Balance replenish operation successful!"),
     WALLET_SUCCESSFULLY_REMOVED("Wallet was successfully removed!"),
     WALLET_NOT_FOUND("Wallet not found!"),
-    OPERATION_IS_NOT_ALLOWED("Operation not allowed! You try to replenish balance between wallets " +
-            "in different currencies! Please change the flag 'isMulticurrent' to true to allow such transactions!");
+    OPERATION_IS_NOT_ALLOWED("Operation not allowed! You try to replenish balance between " +
+            "multi currency wallets! Please change the flag 'isMultiCurrency' to true to allow such transactions!");
 
     private final String msgBody;
 

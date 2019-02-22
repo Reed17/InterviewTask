@@ -86,7 +86,7 @@ public class WalletControllerIntegrationTest {
     void whenAuthorizedUserTryToReplenishOtherUserBalanceThenReturnStatusIsOk() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 2000D));
         Wallet to = walletRepository.save(new Wallet(Currency.UAH, 1000D));
-        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=700&isMulticurrent=false",
+        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=700&isMultiCurrency=false",
                 from.getWalletId(), to.getWalletId()))
                 .andExpect(status().isOk());
     }

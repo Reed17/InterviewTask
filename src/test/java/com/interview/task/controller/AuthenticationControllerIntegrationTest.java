@@ -39,14 +39,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:application-test.yml")
 public class AuthenticationControllerIntegrationTest {
 
+    private static final String API_AUTH_SIGNUP = "/api/auth/signup";
+    private static final String API_AUTH_SIGNIN = "/api/auth/signin";
+
     private static final String PATH_TO_NEW_USER_MODEL = "json/register-new-user.json";
     private static final String LOGIN_REQUEST_PATH = "json/user-login.json";
     private static final String INVALID_USER_CREDENTIALS_PATH = "json/invalid-user-credentials.json";
     private static final String PATH_TO_LOGIN_ERROR = "json/login-error-user-not-found-response.json";
     private static final String USER_ALREADY_EXISTS_PATH = "json/login-error-user-already-exists-response.json";
-
-    private static final String API_AUTH_SIGNUP = "/api/auth/signup";
-    private static final String API_AUTH_SIGNIN = "/api/auth/signin";
 
     @Autowired
     private WebApplicationContext wac;

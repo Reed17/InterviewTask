@@ -16,8 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.interview.task.utils.WalletValidatorUtil.amountChecker;
-import static com.interview.task.utils.WalletValidatorUtil.checkCurrentBalance;
+import static com.interview.task.utils.WalletValidatorUtil.*;
 
 /**
  * Class represents WalletService implementation.
@@ -69,20 +68,19 @@ public class WalletServiceImpl implements WalletService {
         final String currencyTo = to.getCurrency().getTypeValue();
 
         boolean isMultiCurrencyTransfer = !currencyFrom.equals(currencyTo);
-        if (isMultiCurrencyTransfer && !from.isMulticurrent()) {
+        if (isMultiCurrencyTransfer && !from.isMultiCurrency()) {
             LOG.error(Message.OPERATION_IS_NOT_ALLOWED.getMsgBody());
             throw new OperationIsNotAllowed(Message.OPERATION_IS_NOT_ALLOWED.getMsgBody());
         }
 
         if (isMultiCurrencyTransfer) {
             Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
-            reduceBalance(convertedSum, from);
-            addBalance(amount, to);
+            reduceBalance(amount, from);
+            addBalance(convertedSum, to);
         } else {
             subtract(clientWalletFrom, amount);
             add(clientWalletTo, amount);
         }
-
         return true;
     }
 
@@ -151,6 +149,7 @@ public class WalletServiceImpl implements WalletService {
      */
     @Override
     public WalletDto getWallet(final Long walletId) {
+        checkWalletPresence(walletRepository.existsById(walletId));
         final Wallet wallet = walletRepository.getOne(walletId);
         return walletMapper.toDto(wallet);
     }
@@ -162,6 +161,7 @@ public class WalletServiceImpl implements WalletService {
      */
     @Override
     public void removeWallet(final Long walletId) {
+        checkWalletPresence(walletRepository.existsById(walletId));
         walletRepository.deleteById(walletId);
     }
 

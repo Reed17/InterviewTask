@@ -43,7 +43,6 @@ public class UserControllerIntegrationTest {
 
     private static final String UPDATE_USER_JSON = "json/update-user.json";
     private static final String NEW_WALLET_JSON = "json/new-wallet.json";
-
     private static final String NOT_FOUND_RESPONSE_JSON = "json/login-error-user-not-found-response.json";
 
     @Autowired
