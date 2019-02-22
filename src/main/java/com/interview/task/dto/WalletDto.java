@@ -2,6 +2,9 @@ package com.interview.task.dto;
 
 import com.interview.task.enums.Currency;
 
+/**
+ * Class represents wallet dto.
+ */
 public class WalletDto {
     private Long walletId;
     private Currency currency;

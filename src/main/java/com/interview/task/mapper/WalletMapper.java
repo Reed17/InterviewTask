@@ -4,9 +4,18 @@ import com.interview.task.dto.WalletDto;
 import com.interview.task.entity.Wallet;
 import org.springframework.stereotype.Component;
 
+/**
+ * Class represents wallet mapper.
+ */
 @Component
 public class WalletMapper {
 
+    /**
+     * Method transform walletDto into wallet entity.
+     *
+     * @param walletDto walletDto
+     * @return User
+     */
     public Wallet toEntity(final WalletDto walletDto) {
         final Wallet wallet = new Wallet();
         wallet.setWalletId(walletDto.getWalletId());
@@ -15,6 +24,12 @@ public class WalletMapper {
         return wallet;
     }
 
+    /**
+     * Method transform wallet entity into walletDto.
+     *
+     * @param wallet wallet
+     * @return WalletDto
+     */
     public WalletDto toDto(final Wallet wallet) {
         final WalletDto walletDto = new WalletDto();
         walletDto.setWalletId(wallet.getWalletId());

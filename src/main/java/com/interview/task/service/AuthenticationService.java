@@ -6,6 +6,9 @@ import com.interview.task.dto.SignUpRequest;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Interface represents authentication service methods.
+ */
 public interface AuthenticationService {
     JwtAuthenticationResponse signIn(LoginRequest loginRequest, HttpServletResponse response);
     JwtAuthenticationResponse signUp(SignUpRequest signUpRequest, HttpServletResponse response);

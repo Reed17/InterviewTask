@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Class represents user entity.
+ */
 @Entity
 @Table(
         name = "app_user",
@@ -39,9 +42,9 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "app_user_roles",
-        joinColumns = {
-            @JoinColumn(name = "user_id")
-        })
+            joinColumns = {
+                    @JoinColumn(name = "user_id")
+            })
     private Set<Role> roles = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)

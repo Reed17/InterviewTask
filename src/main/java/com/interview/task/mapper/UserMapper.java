@@ -6,9 +6,18 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 
+/**
+ * Class represents user mapper.
+ */
 @Component
 public class UserMapper {
 
+    /**
+     * Method transform userDto into user entity.
+     *
+     * @param userDto user dto
+     * @return User
+     */
     public User toEntity(final UserDto userDto) {
         final User user = new User();
         user.setUserId(userDto.getUserId());
@@ -28,6 +37,12 @@ public class UserMapper {
         return user;
     }
 
+    /**
+     * Method transform user entity into user dto.
+     *
+     * @param user user entity
+     * @return UserDto
+     */
     public UserDto toDto(final User user) {
         final UserDto userDto = new UserDto();
         userDto.setUserId(user.getUserId());

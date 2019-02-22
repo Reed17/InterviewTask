@@ -5,6 +5,9 @@ import com.interview.task.enums.Role;
 
 import java.util.Set;
 
+/**
+ * Class represents user dto.
+ */
 public class UserDto {
     private Long userId;
     private String username;

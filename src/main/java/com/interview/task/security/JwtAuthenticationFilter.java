@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Class represents filter implementation.
+ */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
@@ -31,6 +34,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtUnauthorizedHandler = jwtUnauthorizedHandler;
     }
 
+    /**
+     * Method performs filtering of incoming requests, checks for accessToken presence in request's headers and
+     * if token is present and also valid then authenticate user.
+     *
+     * @param request request
+     * @param response response
+     * @param filterChain filter chain
+     * @throws ServletException Servlet exception
+     * @throws IOException IOException
+     */
     @Override
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,

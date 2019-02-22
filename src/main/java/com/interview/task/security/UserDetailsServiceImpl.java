@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Class represents userDetailsService implementation.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -20,12 +23,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Method load userDetails by email.
+     *
+     * @param email user email
+     * @return UserDetails
+     * @throws UsernameNotFoundException can be thrown if user not found in database.
+     */
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
         final Optional<User> user = userRepository.findByEmail(email);
         return UserPrincipal.create(user.get());
     }
 
+    /**
+     * Method load userDetails by id.
+     *
+     * @param userId user id
+     * @return UserDetails
+     */
     public UserDetails loadUserById(final Long userId) {
         final Optional<User> user = userRepository.findById(userId);
         return UserPrincipal.create(user.get());

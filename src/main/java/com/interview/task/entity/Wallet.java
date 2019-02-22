@@ -5,6 +5,9 @@ import com.interview.task.enums.Currency;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Class represents wallet entity.
+ */
 @Entity
 public class Wallet {
 

@@ -8,6 +8,9 @@ import com.interview.task.exceptions.WalletCreationLimitException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface represents user service methods.
+ */
 public interface UserService {
     Optional<User> getUserByEmail(String email);
     Boolean existsUserByEmail(String email);

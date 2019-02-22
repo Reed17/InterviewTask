@@ -4,6 +4,9 @@ import com.interview.task.entity.Wallet;
 
 import java.util.Set;
 
+/**
+ * Class represents sign up request.
+ */
 public class SignUpRequest {
     private Long clientId;
     private String username;

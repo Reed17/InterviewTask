@@ -25,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.Optional;
 
+/**
+ * Class represents AuthenticationService implementation.
+ */
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
@@ -50,6 +53,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.jwtProvider = jwtProvider;
     }
 
+    /**
+     * Method performs user login procedure.
+     *
+     * @param loginRequest  login request
+     * @param response response
+     * @return JwtAuthenticationResponse
+     */
     @Transactional
     @Override
     public JwtAuthenticationResponse signIn(final LoginRequest loginRequest, final HttpServletResponse response) {
@@ -67,6 +77,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new JwtAuthenticationResponse(accessToken, LocalDate.now());
     }
 
+    /**
+     * Method performs user registration procedure.
+     *
+     * @param signUpRequest sign up request
+     * @param response response
+     * @return JwtAuthenticationResponse
+     */
     @Transactional
     @Override
     public JwtAuthenticationResponse signUp(final SignUpRequest signUpRequest, final HttpServletResponse response) {

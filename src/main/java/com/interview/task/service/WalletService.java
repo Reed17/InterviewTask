@@ -4,6 +4,9 @@ import com.interview.task.dto.WalletDto;
 import com.interview.task.exceptions.InvalidOrEmptyAmountException;
 import com.interview.task.exceptions.LowBalanceException;
 
+/**
+ * Interface represents wallet service methods.
+ */
 public interface WalletService {
      boolean replenishBalance(Long clientWalletFrom, Long clientWalletTo, Double amount);
      boolean replenishBalanceByDifferentCurrencies(Long clientWalletFrom, Long clientWalletTo, Double amount);

@@ -1,6 +1,7 @@
 package com.interview.task.controller;
 
 import com.interview.task.dto.ApiResponse;
+import com.interview.task.enums.Message;
 import com.interview.task.service.WalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class WalletController {
     public ResponseEntity<?> addBalance(@PathVariable("walletId") final Long walletId,
                                         @RequestParam("amount") final Double amount) {
         walletService.add(walletId, amount);
-        return ResponseEntity.ok().body(new ApiResponse(true, "Balance add operation successful!"));
+        return ResponseEntity.ok().body(new ApiResponse(true, Message.BALANCE_ADD_OPERATION_SUCCESSFUL.getMsgBody()));
     }
 
     /**
@@ -47,7 +48,8 @@ public class WalletController {
     public ResponseEntity<?> reduceBalance(@PathVariable("walletId") final Long walletId,
                                            @RequestParam("amount") final Double amount) {
         walletService.subtract(walletId, amount);
-        return ResponseEntity.ok().body(new ApiResponse(true, "Balance reduce operation successful!"));
+        return ResponseEntity.ok().body(
+                new ApiResponse(true, Message.BALANCE_REDUCE_OPERATION_SUCCESSFUL.getMsgBody()));
     }
 
     /**
@@ -63,7 +65,8 @@ public class WalletController {
                                                   @PathVariable("toId") final Long toWalletId,
                                                   @RequestParam("amount") final Double amount) {
         boolean isReplenished = walletService.replenishBalance(fromWalletId, toWalletId, amount);
-        return ResponseEntity.ok().body(new ApiResponse(isReplenished, "Balance replenish operation successful!"));
+        return ResponseEntity.ok().body(
+                new ApiResponse(isReplenished, Message.BALANCE_REPLENISH_OPERATION_SUCCESSFUL.getMsgBody()));
     }
 
     /**
@@ -78,11 +81,11 @@ public class WalletController {
     public ResponseEntity<?> replenishBalanceMultiCurrency(@PathVariable("fromId") final Long fromWalletId,
                                                            @PathVariable("toId") final Long toWalletId,
                                                            @RequestParam("amount") final Double amount) {
-        boolean isMultiCurrReplenished = walletService.replenishBalanceByDifferentCurrencies(fromWalletId, toWalletId, amount);
+        boolean isMultiCurrReplenished =
+                walletService.replenishBalanceByDifferentCurrencies(fromWalletId, toWalletId, amount);
         return ResponseEntity.ok().body(
                 new ApiResponse(
-                        isMultiCurrReplenished,
-                        "Multicurrence balance replenish operation successful!"));
+                        isMultiCurrReplenished, Message.MULTICURRENT_BALANCE_REPLENISH_SUCCESSFUL.getMsgBody()));
     }
 
     /**
@@ -94,6 +97,7 @@ public class WalletController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteWallet(@PathVariable("id") final Long walletId) {
         walletService.removeWallet(walletId);
-        return ResponseEntity.ok().body(new ApiResponse(true, "Wallet was successfully removed!"));
+        return ResponseEntity.ok().body(
+                new ApiResponse(true, Message.WALLET_SUCCESSFULLY_REMOVED.getMsgBody()));
     }
 }

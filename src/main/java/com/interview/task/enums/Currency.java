@@ -1,5 +1,8 @@
 package com.interview.task.enums;
 
+/**
+ * Represents currencies.
+ */
 public enum Currency {
     UAH(1, "UAH"),
     USD(2, "USD"),
