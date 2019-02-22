@@ -68,6 +68,7 @@ public class UserPrincipal implements UserDetails {
         return email;
     }
 
+
     /**
      * Returns collection of user authorities.
      *

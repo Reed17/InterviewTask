@@ -47,7 +47,6 @@ public class WalletServiceImpl implements WalletService {
      * @param clientWalletFrom wallet id which balance will be reduced
      * @param clientWalletTo   wallet id which balance will be replenished
      * @param amount           money amount
-     * @param isMulticurrent   true if the transfer is multicurrent, false otherwise
      * @return true if operation successful, false otherwise
      */
     @Transactional
@@ -55,46 +54,35 @@ public class WalletServiceImpl implements WalletService {
     public boolean replenishBalance(
             final Long clientWalletFrom,
             final Long clientWalletTo,
-            final Double amount,
-            final boolean isMulticurrent) {
+            final Double amount) {
         if (!walletRepository.existsById(clientWalletFrom) || !walletRepository.existsById(clientWalletTo)) {
             LOG.error(Message.WALLET_NOT_FOUND.getMsgBody());
             throw new WalletNotFoundException(Message.WALLET_NOT_FOUND.getMsgBody());
         }
+
         amountChecker(amount);
+
         final Wallet from = walletRepository.getOne(clientWalletFrom);
         final Wallet to = walletRepository.getOne(clientWalletTo);
+
         final String currencyFrom = from.getCurrency().getTypeValue();
         final String currencyTo = to.getCurrency().getTypeValue();
-        if (isMulticurrent && currencyFrom.equals(currencyTo)) {
+
+        boolean isMultiCurrencyTransfer = !currencyFrom.equals(currencyTo);
+        if (isMultiCurrencyTransfer && !from.isMulticurrent()) {
             LOG.error(Message.OPERATION_IS_NOT_ALLOWED.getMsgBody());
             throw new OperationIsNotAllowed(Message.OPERATION_IS_NOT_ALLOWED.getMsgBody());
         }
-        if (isMulticurrent) {
-            return replenishBalanceByDifferentCurrencies(from, to, amount);
+
+        if (isMultiCurrencyTransfer) {
+            Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
+            reduceBalance(convertedSum, from);
+            addBalance(amount, to);
         } else {
             subtract(clientWalletFrom, amount);
             add(clientWalletTo, amount);
-            return true;
         }
-    }
 
-    /**
-     * Method performs replenish balance operation between two wallet with different currencies.
-     *
-     * @param clientWalletFrom wallet which balance will be reduced
-     * @param clientWalletTo   wallet which balance will be replenished
-     * @param amount           money amount
-     * @return true if operation is successful, false otherwise
-     */
-    @Transactional
-    boolean replenishBalanceByDifferentCurrencies(final Wallet clientWalletFrom, final Wallet clientWalletTo, final Double amount) {
-        checkCurrentBalance(amount, clientWalletFrom.getBalance());
-        Double convertedSum = converter.convert(amount, clientWalletFrom.getCurrency(), clientWalletTo.getCurrency());
-        reduceBalance(amount, clientWalletFrom);
-        walletRepository.save(clientWalletFrom);
-        addBalance(convertedSum, clientWalletTo);
-        walletRepository.save(clientWalletTo);
         return true;
     }
 
@@ -111,7 +99,6 @@ public class WalletServiceImpl implements WalletService {
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
         amountChecker(amount);
         addBalance(amount, clientWallet);
-        walletRepository.save(clientWallet);
     }
 
     /**
@@ -123,6 +110,7 @@ public class WalletServiceImpl implements WalletService {
     private void addBalance(final Double amount, final Wallet clientWallet) {
         final Double currentBalance = clientWallet.getBalance() + amount;
         clientWallet.setBalance(currentBalance);
+        walletRepository.save(clientWallet);
     }
 
     /**
@@ -139,7 +127,6 @@ public class WalletServiceImpl implements WalletService {
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
         amountChecker(amount);
         reduceBalance(amount, clientWallet);
-        walletRepository.save(clientWallet);
     }
 
     /**
@@ -153,6 +140,7 @@ public class WalletServiceImpl implements WalletService {
         checkCurrentBalance(amount, currentBalance);
         currentBalance -= amount;
         clientWallet.setBalance(currentBalance);
+        walletRepository.save(clientWallet);
     }
 
     /**

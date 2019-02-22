@@ -36,7 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class WalletControllerIntegrationTest {
 
     private static final String API_WALLET = "/api/wallet";
-    public static final String NOT_ALLOWED_JSON = "json/error-operation-is-not-allowed.json";
+
+    private static final String NOT_ALLOWED_JSON = "json/error-operation-is-not-allowed.json";
 
     @Autowired
     private WebApplicationContext wac;
@@ -95,7 +96,7 @@ public class WalletControllerIntegrationTest {
     void whenAuthorizedUserDoMultiCurrentReplenishUserBalanceThenReturnStatusIsOk() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 28000D));
         Wallet to = walletRepository.save(new Wallet(Currency.USD, 1000D));
-        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200&isMulticurrent=true",
+        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200",
                 from.getWalletId(), to.getWalletId()))
                 .andExpect(status().isOk());
     }
@@ -104,8 +105,8 @@ public class WalletControllerIntegrationTest {
     @WithMockUser(value = "testUser", authorities = "USER")
     void whenAuthorizedUserDoMultiCurrentReplenishUserBalanceWithDifferentCurrenciesThenThrowException() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 28000D));
-        Wallet to = walletRepository.save(new Wallet(Currency.UAH, 1000D));
-        String res = mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200&isMulticurrent=true",
+        Wallet to = walletRepository.save(new Wallet(Currency.EUR, 1000D));
+        String res = mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200",
                 from.getWalletId(), to.getWalletId()))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -137,7 +138,7 @@ public class WalletControllerIntegrationTest {
     void whenUnauthorizedUserDoMultiCurrentReplenishOtherUserBalanceThenReturnStatusIsUnauthorized() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 28000D));
         Wallet to = walletRepository.save(new Wallet(Currency.USD, 1000D));
-        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200&isMulticurrent=true",
+        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200",
                 from.getWalletId(), to.getWalletId()))
                 .andExpect(status().isUnauthorized());
     }

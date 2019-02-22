@@ -8,7 +8,7 @@ import com.interview.task.exceptions.LowBalanceException;
  * Interface represents wallet service methods.
  */
 public interface WalletService {
-     boolean replenishBalance(Long clientWalletFrom, Long clientWalletTo, Double amount, boolean isMulticurrent);
+     boolean replenishBalance(Long clientWalletFrom, Long clientWalletTo, Double amount);
      void add(Long walletId, Double amount) throws InvalidOrEmptyAmountException;
      void subtract(Long walletId, Double amount) throws InvalidOrEmptyAmountException, LowBalanceException;
      WalletDto getWallet(Long walletId);
