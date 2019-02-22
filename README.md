@@ -21,7 +21,7 @@ Fill in params in accordance to you local DB, e.g:
         password: root
 Run ApplicationRunner.java class 
 
-Registration request example:
+***Registration request example:***
 
 ```json 
 {
