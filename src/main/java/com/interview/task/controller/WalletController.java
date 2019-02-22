@@ -63,29 +63,11 @@ public class WalletController {
     @PutMapping("/{fromId}/replenish/{toId}")
     public ResponseEntity<?> replenishUserBalance(@PathVariable("fromId") final Long fromWalletId,
                                                   @PathVariable("toId") final Long toWalletId,
-                                                  @RequestParam("amount") final Double amount) {
-        boolean isReplenished = walletService.replenishBalance(fromWalletId, toWalletId, amount);
+                                                  @RequestParam("amount") final Double amount,
+                                                  @RequestParam("isMulticurrent") final boolean isMulticurrent) {
+        boolean isReplenished = walletService.replenishBalance(fromWalletId, toWalletId, amount, isMulticurrent);
         return ResponseEntity.ok().body(
-                new ApiResponse(isReplenished, Message.BALANCE_REPLENISH_OPERATION_SUCCESSFUL.getMsgBody()));
-    }
-
-    /**
-     * Method performs multicurrent money transfer beetween two wallets.
-     *
-     * @param fromWalletId wallet id which balance will be reducing
-     * @param toWalletId wallet id which balance will be replenished
-     * @param amount money  amount
-     * @return ResponseEntity
-     */
-    @PutMapping("/{fromId}/multicurr/{toId}")
-    public ResponseEntity<?> replenishBalanceMultiCurrency(@PathVariable("fromId") final Long fromWalletId,
-                                                           @PathVariable("toId") final Long toWalletId,
-                                                           @RequestParam("amount") final Double amount) {
-        boolean isMultiCurrReplenished =
-                walletService.replenishBalanceByDifferentCurrencies(fromWalletId, toWalletId, amount);
-        return ResponseEntity.ok().body(
-                new ApiResponse(
-                        isMultiCurrReplenished, Message.MULTICURRENT_BALANCE_REPLENISH_SUCCESSFUL.getMsgBody()));
+                new ApiResponse(isReplenished, Message.BALANCE_REPLENISH_OPERATION_SUCCESSFUL.getMsgBody(), isMulticurrent));
     }
 
     /**

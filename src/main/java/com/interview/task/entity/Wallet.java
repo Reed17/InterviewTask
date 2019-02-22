@@ -20,12 +20,20 @@ public class Wallet {
 
     private Double balance;
 
+    private boolean isMulticurrent;
+
     public Wallet() {
     }
 
     public Wallet(Currency currency, Double balance) {
         this.currency = currency;
         this.balance = balance;
+    }
+
+    public Wallet(Currency currency, Double balance, boolean isMulticurrent) {
+        this.currency = currency;
+        this.balance = balance;
+        this.isMulticurrent = isMulticurrent;
     }
 
     public Long getWalletId() {
@@ -52,6 +60,14 @@ public class Wallet {
         this.balance = balance;
     }
 
+    public boolean isMulticurrent() {
+        return isMulticurrent;
+    }
+
+    public void setMulticurrent(boolean multicurrent) {
+        isMulticurrent = multicurrent;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,7 +87,7 @@ public class Wallet {
                 "walletId=" + walletId +
                 ", currency=" + currency +
                 ", balance=" + balance +
+                ", isMulticurrent=" + isMulticurrent +
                 '}';
     }
-
 }

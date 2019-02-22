@@ -4,10 +4,13 @@ import com.interview.task.ApplicationRunner;
 import com.interview.task.entity.Wallet;
 import com.interview.task.enums.Currency;
 import com.interview.task.repository.WalletRepository;
+import com.interview.task.utils.JsonParserUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -81,19 +84,35 @@ public class WalletControllerIntegrationTest {
     void whenAuthorizedUserTryToReplenishOtherUserBalanceThenReturnStatusIsOk() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 2000D));
         Wallet to = walletRepository.save(new Wallet(Currency.UAH, 1000D));
-        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=700",
+        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=700&isMulticurrent=false",
                 from.getWalletId(), to.getWalletId()))
                 .andExpect(status().isOk());
     }
 
     @Test
     @WithMockUser(value = "testUser", authorities = "USER")
-    void whenAuthorizedUserDoMultiCurrentReplenishOtherUserBalanceThenReturnStatusIsOk() throws Exception {
+    void whenAuthorizedUserDoMultiCurrentReplenishUserBalanceThenReturnStatusIsOk() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 28000D));
         Wallet to = walletRepository.save(new Wallet(Currency.USD, 1000D));
-        mockMvc.perform(put(API_WALLET + "/{fromId}/multicurr/{toId}?amount=500",
+        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200&isMulticurrent=true",
                 from.getWalletId(), to.getWalletId()))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(value = "testUser", authorities = "USER")
+    void whenAuthorizedUserDoMultiCurrentReplenishUserBalanceWithDifferentCurrenciesThenThrowException() throws Exception {
+        Wallet from = walletRepository.save(new Wallet(Currency.UAH, 28000D));
+        Wallet to = walletRepository.save(new Wallet(Currency.UAH, 1000D));
+        String res = mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200&isMulticurrent=true",
+                from.getWalletId(), to.getWalletId()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        String expected =
+                JsonParserUtil.parseJsonToObject("json/error-operation-is-not-allowed.json").toString();
+        JSONAssert.assertEquals(expected, res, JSONCompareMode.LENIENT);
     }
 
     @Test
@@ -117,7 +136,7 @@ public class WalletControllerIntegrationTest {
     void whenUnauthorizedUserDoMultiCurrentReplenishOtherUserBalanceThenReturnStatusIsUnauthorized() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 28000D));
         Wallet to = walletRepository.save(new Wallet(Currency.USD, 1000D));
-        mockMvc.perform(put(API_WALLET + "/{fromId}/multicurr/{toId}?amount=500",
+        mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200&isMulticurrent=true",
                 from.getWalletId(), to.getWalletId()))
                 .andExpect(status().isUnauthorized());
     }

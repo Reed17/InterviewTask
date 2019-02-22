@@ -9,19 +9,22 @@ public class WalletDto {
     private Long walletId;
     private Currency currency;
     private Double balance;
+    private boolean isMulticurrent;
 
     public WalletDto() {
     }
 
-    public WalletDto(Currency currency, Double balance) {
+    public WalletDto(Currency currency, Double balance, boolean isMulticurrent) {
         this.currency = currency;
         this.balance = balance;
+        this.isMulticurrent = isMulticurrent;
     }
 
-    public WalletDto(Long walletId, Currency currency, Double balance) {
+    public WalletDto(Long walletId, Currency currency, Double balance, boolean isMulticurrent) {
         this.walletId = walletId;
         this.currency = currency;
         this.balance = balance;
+        this.isMulticurrent = isMulticurrent;
     }
 
     public Long getWalletId() {
@@ -48,4 +51,11 @@ public class WalletDto {
         this.balance = balance;
     }
 
+    public boolean isMulticurrent() {
+        return isMulticurrent;
+    }
+
+    public void setMulticurrent(boolean multicurrent) {
+        isMulticurrent = multicurrent;
+    }
 }

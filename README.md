@@ -1,4 +1,3 @@
-Tasks:
 Технологии:
 Java 8, Spring 5 (Boot 2, JPA, Security)
 MySQL(or PostgreSQL)

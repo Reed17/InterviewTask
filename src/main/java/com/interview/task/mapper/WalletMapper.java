@@ -21,6 +21,7 @@ public class WalletMapper {
         wallet.setWalletId(walletDto.getWalletId());
         wallet.setCurrency(walletDto.getCurrency());
         wallet.setBalance(walletDto.getBalance());
+        wallet.setMulticurrent(walletDto.isMulticurrent());
         return wallet;
     }
 
@@ -35,6 +36,7 @@ public class WalletMapper {
         walletDto.setWalletId(wallet.getWalletId());
         walletDto.setCurrency(wallet.getCurrency());
         walletDto.setBalance(wallet.getBalance());
+        wallet.setMulticurrent(wallet.isMulticurrent());
         return walletDto;
     }
 }

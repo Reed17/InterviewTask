@@ -83,6 +83,28 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Method handle WalletNotFoundException.
+     *
+     * @param ex WalletNotFoundException
+     * @return ApiErrorResponse
+     */
+    @ExceptionHandler(WalletNotFoundException.class)
+    public ApiErrorResponse handleWalletNotFoundException(final WalletNotFoundException ex) {
+        return getApiErrorResponse(ex.getCause(), ex.getClass().getSimpleName(), ex.getMessage());
+    }
+
+    /**
+     * Method handle OperationIsNotAllowed.
+     *
+     * @param ex OperationIsNotAllowed
+     * @return ApiErrorResponse
+     */
+    @ExceptionHandler(OperationIsNotAllowed.class)
+    public ApiErrorResponse handleOperationIsNotAllowed(final OperationIsNotAllowed ex) {
+        return getApiErrorResponse(ex.getCause(), ex.getClass().getSimpleName(), ex.getMessage());
+    }
+
+    /**
      * Method performs exception handling.
      *
      * @param throwable thrown exception

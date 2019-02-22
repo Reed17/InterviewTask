@@ -1,0 +1,5 @@
+{
+  "errorName": "OperationIsNotAllowed",
+  "cause": "null",
+  "errorMsg": "Operation not allowed! You try to replenish balance between wallets in different currencies! Please change the flag 'isMulticurrent' to true to allow such transactions!"
+}

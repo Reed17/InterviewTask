@@ -63,8 +63,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return List<WalletDto>
      */
     @Query("SELECT " +
-            "NEW com.interview.task.dto.WalletDto( " +
-            "wal.walletId, wal.currency, wal.balance) " +
+            "NEW com.interview.task.dto.WalletDto(wal.walletId, wal.currency, wal.balance, wal.isMulticurrent) " +
             "FROM User u " +
             "JOIN u.wallets wal " +
             "WHERE u.userId = :userId")
