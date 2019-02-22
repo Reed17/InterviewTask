@@ -20,3 +20,22 @@ Fill in params in accordance to you local DB, e.g:
         username: root
         password: root
 Run ApplicationRunner.java class 
+
+Registration request example:
+
+```json 
+{
+ "username":"test user",
+ "email":"test@gmail.com",
+ "password":"3edcvfr4",
+ "wallets": [
+	 {
+	  "currency":"EUR",
+	  "balance": 100000,
+          "multiCurrency": true
+	 }
+     ]
+}
+```
+
+ 
