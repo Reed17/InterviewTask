@@ -75,11 +75,11 @@ public class WalletServiceImpl implements WalletService {
 
         if (isMultiCurrencyTransfer) {
             Double convertedSum = converter.convert(amount, from.getCurrency(), to.getCurrency());
-            reduceBalance(amount, from);
-            addBalance(convertedSum, to);
+            reduceBalanceInternal(amount, from);
+            addBalanceInternal(convertedSum, to);
         } else {
-            subtract(clientWalletFrom, amount);
-            add(clientWalletTo, amount);
+            reduceBalanceInternal(amount, from);
+            addBalanceInternal(amount, to);
         }
         return true;
     }
@@ -93,10 +93,10 @@ public class WalletServiceImpl implements WalletService {
      */
     @Transactional
     @Override
-    public void add(final Long clientWalletId, final Double amount) throws InvalidOrEmptyAmountException {
+    public void addBalance(final Long clientWalletId, final Double amount) throws InvalidOrEmptyAmountException {
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
         amountChecker(amount);
-        addBalance(amount, clientWallet);
+        addBalanceInternal(amount, clientWallet);
     }
 
     /**
@@ -105,7 +105,7 @@ public class WalletServiceImpl implements WalletService {
      * @param amount       money amount
      * @param clientWallet wallet  which balance will increase
      */
-    private void addBalance(final Double amount, final Wallet clientWallet) {
+    private void addBalanceInternal(final Double amount, final Wallet clientWallet) {
         final Double currentBalance = clientWallet.getBalance() + amount;
         clientWallet.setBalance(currentBalance);
         walletRepository.save(clientWallet);
@@ -121,10 +121,10 @@ public class WalletServiceImpl implements WalletService {
      */
     @Transactional
     @Override
-    public void subtract(final Long clientWalletId, final Double amount) throws InvalidOrEmptyAmountException, LowBalanceException {
+    public void reduceBalance(final Long clientWalletId, final Double amount) throws InvalidOrEmptyAmountException, LowBalanceException {
         final Wallet clientWallet = walletRepository.getOne(clientWalletId);
         amountChecker(amount);
-        reduceBalance(amount, clientWallet);
+        reduceBalanceInternal(amount, clientWallet);
     }
 
     /**
@@ -133,7 +133,7 @@ public class WalletServiceImpl implements WalletService {
      * @param amount       money amount
      * @param clientWallet client wallet which balance will decrease
      */
-    private void reduceBalance(final Double amount, final Wallet clientWallet) {
+    private void reduceBalanceInternal(final Double amount, final Wallet clientWallet) {
         Double currentBalance = clientWallet.getBalance();
         checkCurrentBalance(amount, currentBalance);
         currentBalance -= amount;

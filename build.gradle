@@ -12,6 +12,16 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform {
+        includeEngines 'junit-jupiter'
+    }
+
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.4.0'

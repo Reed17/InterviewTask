@@ -160,7 +160,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Method allows user to add new wallet.
+     * Method allows user to addBalance new wallet.
      *
      * @param userId user id
      * @param walletDto new wallet

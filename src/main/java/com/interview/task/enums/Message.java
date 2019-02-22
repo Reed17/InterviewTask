@@ -12,7 +12,7 @@ public enum Message {
     EMPTY_AMOUNT("Invalid or empty amount value!"),
     WALLET_WITH_CURRENCY_ALREADY_EXISTS("You've already created a wallet with this currency!"),
     UNAUTHORIZED_ACCESS("You're not authorized to access this resource!"),
-    BALANCE_ADD_OPERATION_SUCCESSFUL("Balance add operation successful!"),
+    BALANCE_ADD_OPERATION_SUCCESSFUL("Balance addBalance operation successful!"),
     BALANCE_REDUCE_OPERATION_SUCCESSFUL("Balance reduce operation successful!"),
     BALANCE_REPLENISH_OPERATION_SUCCESSFUL("Balance replenish operation successful!"),
     WALLET_SUCCESSFULLY_REMOVED("Wallet was successfully removed!"),

@@ -157,7 +157,7 @@ public class WalletControllerIntegrationTest {
     @WithAnonymousUser
     void whenUnauthorizedUserAddBalanceThenStatusIsUnauthorized() throws Exception {
         Wallet wallet = walletRepository.save(new Wallet(Currency.EUR, 1350D));
-        mockMvc.perform(put(API_WALLET + "/add/{walletId}?amount=441", wallet.getWalletId()))
+        mockMvc.perform(put(API_WALLET + "/addBalance/{walletId}?amount=441", wallet.getWalletId()))
                 .andExpect(status().isUnauthorized());
     }
 

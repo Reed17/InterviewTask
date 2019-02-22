@@ -24,7 +24,7 @@ public class WalletController {
     }
 
     /**
-     * Method add balance to the wallet.
+     * Method addBalance balance to the wallet.
      *
      * @param walletId wallet id.
      * @param amount money amount
@@ -33,7 +33,7 @@ public class WalletController {
     @PutMapping("/add/{walletId}")
     public ResponseEntity<?> addBalance(@PathVariable("walletId") final Long walletId,
                                         @RequestParam("amount") final Double amount) {
-        walletService.add(walletId, amount);
+        walletService.addBalance(walletId, amount);
         return ResponseEntity.ok().body(new ApiResponse(true, Message.BALANCE_ADD_OPERATION_SUCCESSFUL.getMsgBody()));
     }
 
@@ -47,7 +47,7 @@ public class WalletController {
     @PutMapping("/reduce/{walletId}")
     public ResponseEntity<?> reduceBalance(@PathVariable("walletId") final Long walletId,
                                            @RequestParam("amount") final Double amount) {
-        walletService.subtract(walletId, amount);
+        walletService.reduceBalance(walletId, amount);
         return ResponseEntity.ok().body(
                 new ApiResponse(true, Message.BALANCE_REDUCE_OPERATION_SUCCESSFUL.getMsgBody()));
     }
