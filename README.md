@@ -25,16 +25,16 @@ Run ApplicationRunner.java class
 
 ```json 
 {
- "username":"test user",
- "email":"test@gmail.com",
- "password":"3edcvfr4",
- "wallets": [
-	 {
-	  "currency":"EUR",
-	  "balance": 100000,
-          "multiCurrency": true
-	 }
-     ]
+   "username":"test user",
+   "email":"test@gmail.com",
+   "password":"3edcvfr4",
+   "wallets": [
+	   {
+	      "currency":"EUR",
+	      "balance": 100000,
+              "multiCurrency": true
+	   }
+       ]
 }
 ```
 
