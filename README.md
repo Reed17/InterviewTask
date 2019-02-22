@@ -23,6 +23,10 @@ Run ***ApplicationRunner.java*** class
 
 ***Registration request example:***
 
+***Url:*** http://localhost:8080/api/auth/signup
+
+Method: POST
+
 ```json 
 {
    "username":"test user",
@@ -39,6 +43,11 @@ Run ***ApplicationRunner.java*** class
 ```
 
  ***Sign in request example:***
+ 
+ Url: http://localhost:8080/api/auth/signin
+ 
+ Method: POST
+ 
  ```json
  {
 	"email":"test@bigmir.net",
@@ -47,6 +56,11 @@ Run ***ApplicationRunner.java*** class
 ```
 
 ***Wallet creation request example:***
+
+Url: http://localhost:8080/api/user/{user_id}/wallet/new
+
+Method: PUT
+
 ```json
 {
   "currency":"USD",
@@ -54,7 +68,13 @@ Run ***ApplicationRunner.java*** class
   "multiCurrency": false
 }
 ```
-***Update user information:***
+
+***Update user information example:***
+
+Url: http://localhost:8080/api/user
+
+Method: PUT
+
 ```json
 {
    "userId": <user_id>,
