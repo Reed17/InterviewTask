@@ -36,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class WalletControllerIntegrationTest {
 
     private static final String API_WALLET = "/api/wallet";
+    public static final String NOT_ALLOWED_JSON = "json/error-operation-is-not-allowed.json";
 
     @Autowired
     private WebApplicationContext wac;
@@ -111,7 +112,7 @@ public class WalletControllerIntegrationTest {
                 .getResponse()
                 .getContentAsString();
         String expected =
-                JsonParserUtil.parseJsonToObject("json/error-operation-is-not-allowed.json").toString();
+                JsonParserUtil.parseJsonToObject(NOT_ALLOWED_JSON).toString();
         JSONAssert.assertEquals(expected, res, JSONCompareMode.LENIENT);
     }
 
