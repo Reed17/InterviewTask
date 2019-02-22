@@ -54,3 +54,19 @@ Run ***ApplicationRunner.java*** class
   "multiCurrency": false
 }
 ```
+***Update user information:***
+```json
+{
+   "userId": <user_id>,
+   "username":"test user",
+   "email":"test@gmail.com",
+   "password":"3edcvfr4",
+   "wallets": [
+	   {
+	      "currency":"EUR",
+	      "balance": 100000,
+              "multiCurrency": true
+	   }
+       ]
+}
+```
