@@ -14,6 +14,7 @@ How to Run Application
 Open application.yml file inside task/src/main/resources/ directory.
 
 Fill in params in accordance to you local DB, e.g:
+
     datasource:
         url: jdbc:mysql://<your-mysql-host-name>:3306/<your-db-name>
         username: root
