@@ -10,7 +10,7 @@ MySQL(or PostgreSQL)
 с проверкой на валидность данных
 
 How to Run Application
-
+-----------------------
 Open application.yml file inside task/src/main/resources/ directory.
 
 Fill in params in accordance to you local DB, e.g:
