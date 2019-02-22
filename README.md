@@ -19,7 +19,7 @@ Fill in params in accordance to you local DB, e.g:
         url: jdbc:mysql://<your-mysql-host-name>:3306/<your-db-name>
         username: root
         password: root
-Run ***ApplicationRunner.java*** class 
+Run ***ApplicationRunner.java*** class
 
 ***Registration request example:***
 
