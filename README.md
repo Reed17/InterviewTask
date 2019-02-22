@@ -38,4 +38,10 @@ Run ApplicationRunner.java class
 }
 ```
 
- 
+ ***Sign in request example:***
+ ```json
+ {
+	"email":"test@bigmir.net",
+	"password":"3edcvfr4"
+}
+```
