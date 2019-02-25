@@ -77,7 +77,7 @@ Method: PUT
 
 ```json
 {
-   "userId": <user_id>,
+   "userId": {user_id},
    "username":"test user",
    "email":"test@gmail.com",
    "password":"3edcvfr4",
