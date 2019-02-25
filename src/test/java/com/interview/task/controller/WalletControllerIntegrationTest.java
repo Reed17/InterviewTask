@@ -103,7 +103,7 @@ public class WalletControllerIntegrationTest {
 
     @Test
     @WithMockUser(value = "testUser", authorities = "USER")
-    void whenAuthorizedUserDoMultiCurrentReplenishUserBalanceWithDifferentCurrenciesThenThrowException() throws Exception {
+    void whenAuthorizedUserDoMultiCurrentReplenishUserBalanceWithMultiCurrencyOptionTurnedOffThenThrowException() throws Exception {
         Wallet from = walletRepository.save(new Wallet(Currency.UAH, 28000D));
         Wallet to = walletRepository.save(new Wallet(Currency.EUR, 1000D));
         String res = mockMvc.perform(put(API_WALLET + "/{fromId}/replenish/{toId}?amount=200",
