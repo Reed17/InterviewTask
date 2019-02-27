@@ -18,7 +18,9 @@ public enum Message {
     WALLET_SUCCESSFULLY_REMOVED("Wallet was successfully removed!"),
     WALLET_NOT_FOUND("Wallet not found!"),
     OPERATION_IS_NOT_ALLOWED("Operation not allowed! You try to replenish balance between " +
-            "multi currency wallets! Please change the flag 'isMultiCurrency' to true to allow such transactions!");
+            "multi currency wallets! Please change the flag 'isMultiCurrency' to true to allow such transactions!"),
+    AUTHENTICATION_FAILED("Authentication failed!"),
+    INVALID_TOKEN("Invalid token!");
 
     private final String msgBody;
 

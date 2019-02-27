@@ -55,8 +55,9 @@ public class WalletServiceImpl implements WalletService {
             final Long clientWalletTo,
             final Double amount) {
         if (!walletRepository.existsById(clientWalletFrom) || !walletRepository.existsById(clientWalletTo)) {
-            LOG.error(Message.WALLET_NOT_FOUND.getMsgBody());
-            throw new WalletNotFoundException(Message.WALLET_NOT_FOUND.getMsgBody());
+            final String msgBody = Message.WALLET_NOT_FOUND.getMsgBody();
+            LOG.error(msgBody);
+            throw new WalletNotFoundException(msgBody);
         }
 
         amountChecker(amount);
@@ -69,8 +70,9 @@ public class WalletServiceImpl implements WalletService {
 
         boolean isMultiCurrencyTransfer = !currencyFrom.equals(currencyTo);
         if (isMultiCurrencyTransfer && !from.isMultiCurrency()) {
-            LOG.error(Message.OPERATION_IS_NOT_ALLOWED.getMsgBody());
-            throw new OperationIsNotAllowed(Message.OPERATION_IS_NOT_ALLOWED.getMsgBody());
+            final String msgBody = Message.OPERATION_IS_NOT_ALLOWED.getMsgBody();
+            LOG.error(msgBody);
+            throw new OperationIsNotAllowed(msgBody);
         }
 
         if (isMultiCurrencyTransfer) {

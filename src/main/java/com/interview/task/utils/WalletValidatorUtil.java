@@ -32,9 +32,10 @@ public class WalletValidatorUtil {
             final List<WalletDto> userWallets) {
         for (final WalletDto userWallet : userWallets) {
             if (userWallet.getCurrency().getTypeValue().equals(currencyToAdd.getTypeValue())) {
-                LOG.error(Message.WALLET_WITH_CURRENCY_ALREADY_EXISTS.getMsgBody());
+                final String msgBody = Message.WALLET_WITH_CURRENCY_ALREADY_EXISTS.getMsgBody();
+                LOG.error(msgBody);
                 throw new WalletWithPointedCurrencyAlreadyExistsException(
-                        Message.WALLET_WITH_CURRENCY_ALREADY_EXISTS.getMsgBody());
+                        msgBody);
             }
         };
     }
@@ -47,8 +48,9 @@ public class WalletValidatorUtil {
      */
     public static void checkCurrentBalance(final Double amount, final Double currentBalance) {
         if (currentBalance < amount) {
-            LOG.error(Message.LOW_BALANCE.getMsgBody());
-            throw new LowBalanceException(Message.LOW_BALANCE.getMsgBody());
+            final String msgBody = Message.LOW_BALANCE.getMsgBody();
+            LOG.error(msgBody);
+            throw new LowBalanceException(msgBody);
         }
     }
 
@@ -60,8 +62,9 @@ public class WalletValidatorUtil {
      */
     public static void amountChecker(final Double amount) throws InvalidOrEmptyAmountException {
         if (amount == null || amount < 1) {
-            LOG.error(Message.EMPTY_AMOUNT.getMsgBody());
-            throw new InvalidOrEmptyAmountException(Message.EMPTY_AMOUNT.getMsgBody());
+            final String msgBody = Message.EMPTY_AMOUNT.getMsgBody();
+            LOG.error(msgBody);
+            throw new InvalidOrEmptyAmountException(msgBody);
         }
     }
 
@@ -72,8 +75,9 @@ public class WalletValidatorUtil {
      */
     public static void checkWalletPresence(boolean isWalletPresent) {
         if (!isWalletPresent) {
-            LOG.error(Message.WALLET_NOT_FOUND.getMsgBody());
-            throw new WalletNotFoundException(Message.WALLET_NOT_FOUND.getMsgBody());
+            final String msgBody = Message.WALLET_NOT_FOUND.getMsgBody();
+            LOG.error(msgBody);
+            throw new WalletNotFoundException(msgBody);
         }
     }
 }

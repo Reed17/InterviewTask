@@ -1,5 +1,8 @@
 package com.interview.task.security;
 
+import com.interview.task.enums.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -19,6 +22,8 @@ import java.io.IOException;
  * Class represents filter implementation.
  */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private final JwtProvider jwtProvider;
     private final UserDetailsServiceImpl userDetailsService;
@@ -58,6 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         } catch (AuthenticationException ex) {
+            LOG.error(Message.AUTHENTICATION_FAILED.getMsgBody());
             SecurityContextHolder.clearContext();
             jwtUnauthorizedHandler.commence(request, response, ex);
         }

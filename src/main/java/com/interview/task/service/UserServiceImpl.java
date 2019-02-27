@@ -63,8 +63,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> getUserByEmail(final String email) {
         if (!isUserExistByEmail(email)) {
-            LOG.error(Message.USER_NOT_FOUND.getMsgBody());
-            throw new UserNotFoundException(Message.USER_NOT_FOUND.getMsgBody());
+            final String msgBody = Message.USER_NOT_FOUND.getMsgBody();
+            LOG.error(msgBody);
+            throw new UserNotFoundException(msgBody);
         }
         return userRepository.findByEmail(email);
     }
@@ -112,8 +113,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto updateUser(final UserDto userDto) {
         if (!isUserExistByEmail(userDto.getEmail())) {
-            LOG.error(Message.USER_NOT_FOUND.getMsgBody());
-            throw new UserNotFoundException(Message.USER_NOT_FOUND.getMsgBody());
+            final String msgBody = Message.USER_NOT_FOUND.getMsgBody();
+            LOG.error(msgBody);
+            throw new UserNotFoundException(msgBody);
         }
         final User updated = userRepository.save(parseToUserEntity(userDto));
         return parseToUserDto(updated);
@@ -181,8 +183,9 @@ public class UserServiceImpl implements UserService {
             userRepository.save(currentUser);
             return parseToWalletDto(savedWallet);
         } else {
-            LOG.error(Message.WALLET_CREATION_LIMIT.getMsgBody());
-            throw new WalletCreationLimitException(Message.WALLET_CREATION_LIMIT.getMsgBody());
+            final String msgBody = Message.WALLET_CREATION_LIMIT.getMsgBody();
+            LOG.error(msgBody);
+            throw new WalletCreationLimitException(msgBody);
         }
     }
 
@@ -216,8 +219,9 @@ public class UserServiceImpl implements UserService {
      */
     private void checkUserExistence(final Long userId) {
         if (!userRepository.existsById(userId)) {
-            LOG.error(Message.USER_NOT_FOUND.getMsgBody());
-            throw new UserNotFoundException(Message.USER_NOT_FOUND.getMsgBody());
+            final String msgBody = Message.USER_NOT_FOUND.getMsgBody();
+            LOG.error(msgBody);
+            throw new UserNotFoundException(msgBody);
         }
     }
 

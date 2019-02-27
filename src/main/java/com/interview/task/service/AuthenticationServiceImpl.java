@@ -65,8 +65,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public JwtAuthenticationResponse signIn(final LoginRequest loginRequest, final HttpServletResponse response) {
         final Optional<User> user = userService.getUserByEmail(loginRequest.getEmail());
         if (!user.isPresent()) {
-            LOG.error(Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody());
-            throw new UsernameNotFoundException(Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody());
+            final String msgBody = Message.USER_WITH_EMAIL_NOT_EXIST.getMsgBody();
+            LOG.error(msgBody);
+            throw new UsernameNotFoundException(msgBody);
         }
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -88,8 +89,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public JwtAuthenticationResponse signUp(final SignUpRequest signUpRequest, final HttpServletResponse response) {
         if (userService.existsUserByEmail(signUpRequest.getEmail())) {
-            LOG.error(Message.USER_ALREADY_EXISTS.getMsgBody());
-            throw new UserAlreadyExistsException(Message.USER_ALREADY_EXISTS.getMsgBody());
+            final String msgBody = Message.USER_ALREADY_EXISTS.getMsgBody();
+            LOG.error(msgBody);
+            throw new UserAlreadyExistsException(msgBody);
         }
         final User user = new User(
                 signUpRequest.getUsername(),

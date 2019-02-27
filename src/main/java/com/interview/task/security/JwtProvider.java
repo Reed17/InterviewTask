@@ -1,7 +1,10 @@
 package com.interview.task.security;
 
 import com.interview.task.config.JwtProperties;
+import com.interview.task.enums.Message;
 import io.jsonwebtoken.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -14,6 +17,8 @@ import java.util.Date;
  */
 @Component
 public class JwtProvider {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JwtProvider.class);
 
     private final JwtProperties jwtProperties;
 
@@ -79,6 +84,7 @@ public class JwtProvider {
             return true;
         } catch (SignatureException | MalformedJwtException | ExpiredJwtException
                 | UnsupportedJwtException | IllegalArgumentException ex) {
+            LOG.error(Message.INVALID_TOKEN.getMsgBody());
             return false;
         }
     }
